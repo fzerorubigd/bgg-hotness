@@ -1,5 +1,8 @@
-name: gsheet.action test
-on: push
+name: Update BGG Hotness Spreadsheet
+on:
+  schedule:
+  - cron: "0 12 * * *"
+
 
 jobs:
   fetch:
