@@ -1,0 +1,8 @@
+module github.com/fzerorubigd/bgg-hotness
+
+go 1.20
+
+require (
+	github.com/fzerorubigd/gobgg v0.4.0 // indirect
+	golang.org/x/net v0.4.0 // indirect
+)
