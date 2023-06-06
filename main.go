@@ -29,10 +29,13 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+
 	ids := make([]int64, len(hot))
 	data := make([][]string, len(hot))
+	aggregate := make([]string, len(hot))
 	for i := range hot {
 		ids[i] = hot[i].ID
+		aggregate[i] = fmt.Sprint(hot[i].ID)
 		data[i] = append(data[i],
 			fmt.Sprint(i+1),
 			fmt.Sprint(hot[i].ID),
@@ -61,6 +64,7 @@ func main() {
 
 	today := time.Now().Format(time.DateOnly)
 	rs := fmt.Sprintf("%s!A1:E%d", today, len(data))
+	aggregate = append([]string{today}, aggregate...)
 	commands := []Command{
 		{
 			Command: "addWorksheet",
@@ -75,6 +79,14 @@ func main() {
 				"data":           data,
 				"range":          rs,
 				"worksheetTitle": today,
+			},
+		},
+		{
+			Command: "appendData",
+			Args: map[string]interface{}{
+				"minCol":         1,
+				"data":           [][]string{aggregate},
+				"worksheetTitle": "Aggregate",
 			},
 		},
 	}
