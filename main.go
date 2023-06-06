@@ -50,8 +50,17 @@ func main() {
 		data[i] = append(data[i], things[i].Name)
 	}
 
+	base := []string{
+		"Rank",
+		"BGGID",
+		"Change",
+		"Link",
+		"Name",
+	}
+	data = append([][]string{base}, data...)
+
 	today := time.Now().Format(time.DateOnly)
-	rs := fmt.Sprintf("%s!A2:E%d", today, 3+1)
+	rs := fmt.Sprintf("%s!A1:E%d", today, len(data))
 	commands := []Command{
 		{
 			Command: "addWorksheet",
@@ -63,7 +72,7 @@ func main() {
 			Command: "updateData",
 			Args: map[string]interface{}{
 				"minCol":         1,
-				"data":           data[:3],
+				"data":           data,
 				"range":          rs,
 				"worksheetTitle": today,
 			},
