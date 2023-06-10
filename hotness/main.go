@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"crypto/sha256"
 	"encoding/json"
 	"fmt"
 	"os/signal"
@@ -95,7 +96,10 @@ func main() {
 		panic(err)
 	}
 
-	fmt.Println("data_array<<EOF")
+	sum := sha256.New()
+	fmt.Fprint(sum, time.Now())
+	eof := fmt.Sprintf("%x", sum.Sum(nil))
+	fmt.Printf("data_array<<%s\n", eof)
 	fmt.Println(string(x))
-	fmt.Println("EOF")
+	fmt.Println(eof)
 }
