@@ -12,7 +12,7 @@ jobs:
       - uses: actions/setup-go@v4
       - id: bgghotness 
         run: |
-          go run main.go >> ${GITHUB_OUTPUT}
+          go run hotness/main.go >> ${GITHUB_OUTPUT}
       - id: 'update_worksheet'
         uses: jroehl/gsheet.action@v2.0.0 # you can specify '@release' to always have the latest changes
         with:
