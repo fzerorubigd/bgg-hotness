@@ -114,15 +114,23 @@ func main() {
 	defer cnl()
 	os.Setenv("DOCUMENT_ID", "1b5gxf72Txb6vBEG-q-W7vkPUyn9fLmQ92DxKq7zAyqg")
 	var (
-		DocumentID string
-		PageID     int
+		documentID string
+		pageID     int
+		days       int
 	)
-	flag.StringVar(&DocumentID, "document-id", os.Getenv("DOCUMENT_ID"), "The document id to get the data from")
-	flag.IntVar(&PageID, "page-id", 0, "The page id in document")
-
+	flag.StringVar(&documentID, "document-id", os.Getenv("DOCUMENT_ID"), "The document id to get the data from")
+	flag.IntVar(&pageID, "page-id", 0, "The page id in document")
+	flag.IntVar(&days, "days", 14, "Number of days to get the report")
 	flag.Parse()
-	weeks := time.Hour * 24 * 14
-	ballots, err := getCSV(ctx, DocumentID, PageID, time.Now().Add(-weeks), time.Now())
+
+	if days < 7 {
+		days = 7
+	}
+	if days > 90 {
+		days = 90
+	}
+	weeks := time.Hour * 24 * time.Duration(days)
+	ballots, err := getCSV(ctx, documentID, pageID, time.Now().Add(-weeks), time.Now())
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -173,7 +181,7 @@ func main() {
 	}
 	data = append([][]string{base}, data...)
 
-	today := time.Now().Format(time.DateOnly) + "_2week"
+	today := fmt.Sprintf("%s_%d-days", time.Now().Format(time.DateOnly), days)
 	rs := fmt.Sprintf("%s!A1:E%d", today, len(data))
 	commands := []Command{
 		{
