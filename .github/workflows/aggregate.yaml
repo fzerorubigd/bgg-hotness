@@ -13,6 +13,8 @@ jobs:
       - id: bgghotness 
         run: |
           go run aggregate/main.go >> ${GITHUB_OUTPUT}
+        env:
+          DOCUMENT_ID: ${{ secrets.DOCUMENT_ID }}
       - id: 'update_worksheet'
         uses: jroehl/gsheet.action@v2.0.0 # you can specify '@release' to always have the latest changes
         with:

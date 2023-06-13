@@ -112,7 +112,7 @@ func main() {
 		syscall.SIGQUIT,
 		syscall.SIGABRT)
 	defer cnl()
-	os.Setenv("DOCUMENT_ID", "1b5gxf72Txb6vBEG-q-W7vkPUyn9fLmQ92DxKq7zAyqg")
+
 	var (
 		documentID string
 		pageID     int
