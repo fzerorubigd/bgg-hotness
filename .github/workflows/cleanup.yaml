@@ -1,0 +1,30 @@
+name: Cleanup BGG Hotness Spreadsheet
+on: 
+  schedule:
+  - cron: "0 12 * * 2"
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-go@v4
+      - id: bgghotness 
+        run: |
+          go run cleanup/main.go >> ${GITHUB_OUTPUT}
+        env:
+          DOCUMENT_ID: ${{ secrets.DOCUMENT_ID }}
+      - id: 'update_worksheet'
+        uses: jroehl/gsheet.action@v2.0.0 # you can specify '@release' to always have the latest changes
+        with:
+          spreadsheetId: ${{ secrets.DOCUMENT_ID }}
+          commands: | # list of commands, specified as a valid JSON string
+            ${{ steps.bgghotness.outputs.data_array }}
+        env:
+          GSHEET_CLIENT_EMAIL: ${{ secrets.GOOGLE_EMAIL }}
+          GSHEET_PRIVATE_KEY: ${{ secrets.GOOGLE_SECRET }}
+      - name: dump results
+        env:
+          #  the output of the action can be found in ${{ steps.update_worksheet.outputs.results }}
+          RESULTS: ${{ steps.update_worksheet.outputs.results }}
+        run: echo "$RESULTS" | jq
