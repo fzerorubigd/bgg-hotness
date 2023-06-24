@@ -3,8 +3,11 @@ package main
 import (
 	"context"
 	"crypto/sha256"
+	"embed"
 	"encoding/json"
 	"fmt"
+	"html/template"
+	"os"
 	"os/signal"
 	"syscall"
 	"time"
@@ -12,9 +15,35 @@ import (
 	"github.com/fzerorubigd/gobgg"
 )
 
+var (
+	//go:embed template.html
+	tmpl embed.FS
+)
+
 type Command struct {
 	Command string                 `json:"command"`
 	Args    map[string]interface{} `json:"args"`
+}
+
+func renderHtml(path string, things []gobgg.ThingResult) error {
+	tp, err := template.New("hotness").ParseFS(tmpl, "template.html")
+	if err != nil {
+		return err
+	}
+
+	fl, err := os.Create(path)
+	if err != nil {
+		return err
+	}
+	defer fl.Close()
+
+	return tp.ExecuteTemplate(fl, "template.html", struct {
+		Date   string
+		Things []gobgg.ThingResult
+	}{
+		Date:   "SSS",
+		Things: things,
+	})
 }
 
 func main() {
@@ -47,6 +76,9 @@ func main() {
 
 	things, err := bgg.GetThings(ctx, gobgg.GetThingIDs(ids...))
 	if err != nil {
+		panic(err)
+	}
+	if err := renderHtml("/home/f0rud/xx.html", things); err != nil {
 		panic(err)
 	}
 

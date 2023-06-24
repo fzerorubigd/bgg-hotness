@@ -2,7 +2,7 @@ name: Update BGG Hotness Spreadsheet
 on: push
 
 jobs:
-  fetch:
+  BuildHotness:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
