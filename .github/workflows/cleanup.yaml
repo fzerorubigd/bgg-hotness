@@ -5,6 +5,7 @@ on:
 
 jobs:
   fetch:
+    name: Delete sheet older than 14 days
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -14,6 +15,8 @@ jobs:
           go run cleanup/main.go >> ${GITHUB_OUTPUT}
         env:
           DOCUMENT_ID: ${{ secrets.DOCUMENT_ID }}
+          GSHEET_CLIENT_EMAIL: ${{ secrets.GOOGLE_EMAIL }}
+          GSHEET_PRIVATE_KEY: ${{ secrets.GOOGLE_SECRET }}          
       - id: 'update_worksheet'
         uses: jroehl/gsheet.action@v2.0.0 # you can specify '@release' to always have the latest changes
         with:

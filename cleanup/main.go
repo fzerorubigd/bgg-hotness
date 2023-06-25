@@ -3,79 +3,24 @@ package main
 import (
 	"context"
 	"crypto/sha256"
-	"encoding/csv"
 	"encoding/json"
 	"flag"
 	"fmt"
-	"io"
 	"log"
-	"net/http"
 	"os"
 	"os/signal"
+	"regexp"
 	"syscall"
 	"time"
-)
 
-const (
-	documentURL = "http://spreadsheets.google.com/feeds/download/spreadsheets/Export?key=%s&exportFormat=csv&gid=%d"
+	"golang.org/x/oauth2/jwt"
+	"google.golang.org/api/option"
+	"google.golang.org/api/sheets/v4"
 )
 
 type Command struct {
 	Command string                 `json:"command"`
 	Args    map[string]interface{} `json:"args"`
-}
-
-func getCSV(ctx context.Context, doc string, page int, date time.Time) (map[int]time.Time, error) {
-	resp, err := http.Get(fmt.Sprintf(documentURL, doc, page))
-	if err != nil {
-		return nil, err
-	}
-	defer resp.Body.Close()
-	csReader := csv.NewReader(resp.Body)
-	headers, err := csReader.Read()
-	if err != nil {
-		return nil, err
-	}
-	expected := make([]string, 51, 52)
-
-	expected[0] = "Date"
-	for i := 1; i < len(expected); i++ {
-		expected[i] = fmt.Sprint(i)
-	}
-	expected = append(expected, "deleted")
-
-	if len(headers) != len(expected) {
-		return nil, fmt.Errorf("the header need to have exactly %d items", len(expected))
-	}
-
-	for i := range expected {
-		if expected[i] != headers[i] {
-			return nil, fmt.Errorf("headers do not match %s => %s", expected[i], headers[i])
-		}
-	}
-
-	res := make(map[int]time.Time)
-	row := 1
-	for {
-		row++
-		ln, err := csReader.Read()
-		if err == io.EOF {
-			break
-		}
-		if err != nil {
-			return nil, err
-		}
-		rowDate, err := time.Parse(time.DateOnly, ln[0])
-		if err != nil {
-			// Err?
-			continue
-		}
-		if rowDate.Before(date) && ln[len(ln)-1] == "" {
-			res[row] = rowDate
-		}
-	}
-
-	return res, nil
 }
 
 func main() {
@@ -88,14 +33,36 @@ func main() {
 	defer cnl()
 
 	var (
-		documentID string
-		pageID     int
-		days       int
+		spreadsheetId string
+		pageID        int
+		days          int
 	)
-	flag.StringVar(&documentID, "document-id", os.Getenv("DOCUMENT_ID"), "The document id to get the data from")
+	flag.StringVar(&spreadsheetId, "document-id", os.Getenv("DOCUMENT_ID"), "The document id to get the data from")
 	flag.IntVar(&pageID, "page-id", 0, "The page id in document")
 	flag.IntVar(&days, "days", 14, "Number of days to get the report")
 	flag.Parse()
+
+	// Create a JWT configurations object for the Google service account
+	conf := &jwt.Config{
+		Email:      os.Getenv("GSHEET_CLIENT_EMAIL"),
+		PrivateKey: []byte(os.Getenv("GSHEET_PRIVATE_KEY")),
+		TokenURL:   "https://oauth2.googleapis.com/token",
+		Scopes: []string{
+			"https://www.googleapis.com/auth/spreadsheets",
+		},
+	}
+	client := conf.Client(ctx)
+
+	// Create a service object for Google sheets
+	srv, err := sheets.NewService(ctx, option.WithHTTPClient(client))
+	if err != nil {
+		log.Fatalf("Unable to retrieve Sheets client: %v", err)
+	}
+
+	sp, err := srv.Spreadsheets.Get(spreadsheetId).Context(ctx).Do()
+	if err != nil {
+		panic(err)
+	}
 
 	if days < 7 {
 		days = 7
@@ -103,30 +70,27 @@ func main() {
 	if days > 90 {
 		days = 90
 	}
-	weeks := time.Hour * 24 * time.Duration(days)
-	toDelete, err := getCSV(ctx, documentID, pageID, time.Now().Add(-weeks))
-	if err != nil {
-		log.Fatal(err)
-	}
-
+	dateIn := time.Now().Add(-time.Hour * 24 * time.Duration(days))
+	pattern := regexp.MustCompile("^[0-9]{4}-[0-9]{2}-[0-9]{2}")
 	var commands []Command
-	for i, d := range toDelete {
-		title := d.Format(time.DateOnly)
+	for _, sh := range sp.Sheets {
+		dt := pattern.Find([]byte(sh.Properties.Title))
+		if len(dt) == 0 {
+			continue
+		}
+		date, err := time.Parse(time.DateOnly, string(dt))
+		if err != nil {
+			continue
+		}
 
-		commands = append(commands, Command{
-			Command: "updateData",
-			Args: map[string]interface{}{
-				"minCol":         1,
-				"data":           [][]string{{"X"}},
-				"range":          fmt.Sprintf("Aggregate!AZ%d", i),
-				"worksheetTitle": "Aggregate",
-			},
-		}, Command{
-			Command: "removeWorksheet",
-			Args: map[string]interface{}{
-				"worksheetTitle": title,
-			},
-		})
+		if date.Before(dateIn) {
+			commands = append(commands, Command{
+				Command: "removeWorksheet",
+				Args: map[string]interface{}{
+					"worksheetTitle": sh.Properties.Title,
+				},
+			})
+		}
 	}
 
 	// To make sure the commands are never empty
@@ -138,6 +102,7 @@ func main() {
 			"worksheetTitle": "Aggregate",
 		},
 	})
+
 	x, err := json.Marshal(commands)
 	if err != nil {
 		panic(err)
@@ -149,4 +114,5 @@ func main() {
 	fmt.Printf("data_array<<%s\n", eof)
 	fmt.Println(string(x))
 	fmt.Println(eof)
+
 }
