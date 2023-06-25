@@ -40,16 +40,15 @@ func getCSV(ctx context.Context, doc string, page int, dateIn, dateOut time.Time
 	if err != nil {
 		return nil, err
 	}
-	expected := make([]string, 51, 52)
+	expected := make([]string, 51)
 
 	expected[0] = "Date"
 	for i := 1; i < len(expected); i++ {
 		expected[i] = fmt.Sprint(i)
 	}
-	expected = append(expected, "deleted")
 
 	if len(headers) != len(expected) {
-		return nil, fmt.Errorf("the header need to have exactly %d items", len(expected))
+		return nil, fmt.Errorf("the header need to have exactly %d items but has %d", len(expected), len(headers))
 	}
 
 	for i := range expected {
@@ -73,7 +72,7 @@ func getCSV(ctx context.Context, doc string, page int, dateIn, dateOut time.Time
 			continue
 		}
 		if date.After(dateIn) && date.Before(dateOut) {
-			res = append(res, ln[:len(ln)-2])
+			res = append(res, ln)
 		}
 	}
 
