@@ -2,6 +2,7 @@ name: Cleanup BGG Hotness Spreadsheet
 on: 
   schedule:
   - cron: "0 12 * * 2"
+  workflow_dispatch: 
 
 jobs:
   fetch:
