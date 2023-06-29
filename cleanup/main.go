@@ -10,6 +10,7 @@ import (
 	"os"
 	"os/signal"
 	"regexp"
+	"strings"
 	"syscall"
 	"time"
 
@@ -42,10 +43,11 @@ func main() {
 	flag.IntVar(&days, "days", 14, "Number of days to get the report")
 	flag.Parse()
 
+	private := strings.Replace(os.Getenv("GSHEET_PRIVATE_KEY"), `\n`, "\n", -1)
 	// Create a JWT configurations object for the Google service account
 	conf := &jwt.Config{
 		Email:      os.Getenv("GSHEET_CLIENT_EMAIL"),
-		PrivateKey: []byte(os.Getenv("GSHEET_PRIVATE_KEY")),
+		PrivateKey: []byte(private),
 		TokenURL:   "https://oauth2.googleapis.com/token",
 		Scopes: []string{
 			"https://www.googleapis.com/auth/spreadsheets",
