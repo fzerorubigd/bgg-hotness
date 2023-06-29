@@ -100,7 +100,7 @@ func main() {
 		Command: "getData",
 		Args: map[string]interface{}{
 			"minCol":         1,
-			"range":          "Aggregate!AZ1",
+			"range":          "Aggregate!A1",
 			"worksheetTitle": "Aggregate",
 		},
 	})
