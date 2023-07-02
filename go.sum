@@ -1,6 +1,6 @@
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
-github.com/fzerorubigd/gobgg v0.7.0 h1:DalzLqZGIERzSbxMMJoJWP2pHaMKMNeAKFjOAhOoCn8=
-github.com/fzerorubigd/gobgg v0.7.0/go.mod h1:g3iU+ApfpUjWAdmm8yoXpdM7NpgIbvwQDOr7YnjNN1Q=
+github.com/fzerorubigd/gobgg v0.7.2 h1:U4Aoup2F1tlG+0pNLAIC09FPBPkqpd3KX+2bVjqb0/A=
+github.com/fzerorubigd/gobgg v0.7.2/go.mod h1:g3iU+ApfpUjWAdmm8yoXpdM7NpgIbvwQDOr7YnjNN1Q=
 github.com/jarcoal/httpmock v1.3.0 h1:2RJ8GP0IIaWwcC9Fp2BmVi8Kog3v2Hn7VXM3fTd+nuc=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/stretchr/testify v1.8.4 h1:CcVxjf3Q8PM0mHUKJCdn+eZZtm5yQwehR5yeSVQQcUk=

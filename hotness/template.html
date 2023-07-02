@@ -71,8 +71,8 @@
         thumbnail: '{{ $val.Image }}',
         title: '{{ $val.Name }}',
         rating: '{{ $val.BayesAverage }}',
-        designers: 'Designer 1, Designer 2',
-        authors: 'Author 1, Author 2',
+        designers: '{{ range $d := $val.Designers }} {{ $d.Name }}, {{ end }}',
+        authors: '{{ range $a := $val.Artists }} {{ $a.Name }}, {{ end }}',
         description: '{{ $val.Description }}',
         link: 'https://boardgamegeek.com/boardgame/{{ $val.ID }}/'
       },

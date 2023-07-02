@@ -41,7 +41,7 @@ func renderHtml(path string, things []gobgg.ThingResult) error {
 		Date   string
 		Things []gobgg.ThingResult
 	}{
-		Date:   "SSS",
+		Date:   time.Now().Format(time.DateOnly),
 		Things: things,
 	})
 }
