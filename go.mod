@@ -4,7 +4,7 @@ go 1.20
 
 require (
 	github.com/fzerorubigd/gobgg v0.7.2
-	golang.org/x/oauth2 v0.9.0
+	golang.org/x/oauth2 v0.10.0
 	google.golang.org/api v0.130.0
 	resenje.org/schulze v0.4.2
 )
