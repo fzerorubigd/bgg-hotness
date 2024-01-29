@@ -144,7 +144,7 @@ func main() {
 		}
 	}
 
-	result, _ := schulze.Compute(preferences, choices)
+	result, _, _ := schulze.Compute(preferences, choices)
 	ids := make([]int64, 0, 50)
 	for i := range result {
 		if i >= cap(ids) {
