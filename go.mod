@@ -6,7 +6,7 @@ require (
 	github.com/fzerorubigd/gobgg v0.8.1
 	golang.org/x/oauth2 v0.16.0
 	google.golang.org/api v0.160.0
-	resenje.org/schulze v0.5.0
+	resenje.org/schulze v0.6.0
 )
 
 require (
