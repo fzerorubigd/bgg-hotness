@@ -3,7 +3,7 @@ module github.com/fzerorubigd/bgg-hotness
 go 1.20
 
 require (
-	github.com/fzerorubigd/gobgg v0.8.1
+	github.com/fzerorubigd/gobgg v0.9.1
 	golang.org/x/oauth2 v0.17.0
 	google.golang.org/api v0.162.0
 	resenje.org/schulze v0.6.0
