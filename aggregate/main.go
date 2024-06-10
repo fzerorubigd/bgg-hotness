@@ -126,8 +126,8 @@ func main() {
 	if days < 7 {
 		days = 7
 	}
-	if days > 90 {
-		days = 90
+	if days > 500 {
+		days = 500
 	}
 	weeks := time.Hour * 24 * time.Duration(days)
 	ballots, err := getCSV(ctx, documentID, pageID, time.Now().Add(-weeks), time.Now())
