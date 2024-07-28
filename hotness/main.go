@@ -59,9 +59,13 @@ func main() {
 			panic(err)
 		}
 
-		for i := range things {
-			data[i] = append(data[i], things[i].Name)
+		for i := range nextBatch {
+			data[i+idx] = append(data[i+idx], things[i].Name)
 		}
+	}
+
+	if len(data) != len(hot) {
+		panic("why?")
 	}
 
 	base := []string{
