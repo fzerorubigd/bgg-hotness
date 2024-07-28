@@ -17,6 +17,8 @@ type Command struct {
 	Args    map[string]interface{} `json:"args"`
 }
 
+const batchSize = 20
+
 func main() {
 	ctx, cnl := signal.NotifyContext(context.Background(),
 		syscall.SIGKILL,
@@ -45,13 +47,21 @@ func main() {
 		)
 	}
 
-	things, err := bgg.GetThings(ctx, gobgg.GetThingIDs(ids...))
-	if err != nil {
-		panic(err)
-	}
+	for idx := 0; idx < len(ids); idx += batchSize {
+		var nextBatch []int64
+		if len(ids)-idx < batchSize {
+			nextBatch = ids[idx:]
+		} else {
+			nextBatch = ids[idx : idx+batchSize]
+		}
+		things, err := bgg.GetThings(ctx, gobgg.GetThingIDs(nextBatch...))
+		if err != nil {
+			panic(err)
+		}
 
-	for i := range things {
-		data[i] = append(data[i], things[i].Name)
+		for i := range things {
+			data[i] = append(data[i], things[i].Name)
+		}
 	}
 
 	base := []string{
