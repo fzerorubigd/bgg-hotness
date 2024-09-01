@@ -1,6 +1,8 @@
 module github.com/fzerorubigd/bgg-hotness
 
-go 1.20
+go 1.21
+
+toolchain go1.23.0
 
 require (
 	github.com/fzerorubigd/gobgg v0.9.1
