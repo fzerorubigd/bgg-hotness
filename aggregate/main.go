@@ -22,6 +22,7 @@ import (
 
 const (
 	documentURL = "http://spreadsheets.google.com/feeds/download/spreadsheets/Export?key=%s&exportFormat=csv&gid=%d"
+	batchSize   = 20
 )
 
 type Command struct {
@@ -157,19 +158,27 @@ func main() {
 		ids = append(ids, id)
 	}
 	bgg := gobgg.NewBGGClient()
-	things, err := bgg.GetThings(ctx, gobgg.GetThingIDs(ids...))
-	if err != nil {
-		log.Fatal(err)
-	}
-	data := make([][]string, len(things))
-	for i := range things {
-		data[i] = append(data[i],
-			fmt.Sprint(i+1),
-			fmt.Sprint(things[i].ID),
-			fmt.Sprint(result[i].Wins),
-			fmt.Sprintf("https://boardgamegeek.com/boardgame/%d/", things[i].ID),
-			things[i].Name,
-		)
+	data := make([][]string, 50)
+	for idx := 0; idx < len(ids); idx += batchSize {
+		var nextBatch []int64
+		if len(ids)-idx < batchSize {
+			nextBatch = ids[idx:]
+		} else {
+			nextBatch = ids[idx : idx+batchSize]
+		}
+		things, err := bgg.GetThings(ctx, gobgg.GetThingIDs(nextBatch...))
+		if err != nil {
+			panic(err)
+		}
+
+		for i := range nextBatch {
+			data[i+idx] = append(data[i+idx],
+				fmt.Sprint(i+1),
+				fmt.Sprint(things[i].ID),
+				fmt.Sprint(result[i].Wins),
+				fmt.Sprintf("https://boardgamegeek.com/boardgame/%d/", things[i].ID),
+				things[i].Name)
+		}
 	}
 
 	base := []string{
