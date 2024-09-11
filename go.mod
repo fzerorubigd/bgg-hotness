@@ -6,7 +6,7 @@ toolchain go1.23.0
 
 require (
 	github.com/fzerorubigd/gobgg v0.10.2
-	golang.org/x/oauth2 v0.22.0
+	golang.org/x/oauth2 v0.23.0
 	google.golang.org/api v0.195.0
 	resenje.org/schulze v0.6.1
 )
