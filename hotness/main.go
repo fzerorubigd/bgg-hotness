@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/fzerorubigd/gobgg"
+	"go.uber.org/ratelimit"
 )
 
 type Command struct {
@@ -27,7 +28,8 @@ func main() {
 		syscall.SIGQUIT,
 		syscall.SIGABRT)
 	defer cnl()
-	bgg := gobgg.NewBGGClient()
+	rl := ratelimit.New(1, ratelimit.Per(time.Second)) // creates a 10 per minutes rate limiter.
+	bgg := gobgg.NewBGGClient(gobgg.SetLimiter(rl))
 	hot, err := bgg.Hotness(ctx, 50)
 	if err != nil {
 		panic(err)
@@ -56,7 +58,8 @@ func main() {
 		}
 		things, err := bgg.GetThings(ctx, gobgg.GetThingIDs(nextBatch...))
 		if err != nil {
-			panic(err)
+			// here is the hack, this sheet is not as important as the main, so just fake it
+			things = make([]gobgg.ThingResult, len(nextBatch))
 		}
 
 		for i := range nextBatch {
