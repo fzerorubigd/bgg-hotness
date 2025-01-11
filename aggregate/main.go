@@ -203,7 +203,7 @@ func main() {
 
 		for i := range nextBatch {
 			data[i+idx] = append(data[i+idx],
-				fmt.Sprint(i+1),
+				fmt.Sprint(i+idx+1),
 				fmt.Sprint(things[i].ID),
 				fmt.Sprint(result[i].Wins),
 				fmt.Sprintf("https://boardgamegeek.com/boardgame/%d/", things[i].ID),
