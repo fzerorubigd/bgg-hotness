@@ -1,17 +1,19 @@
 name: Aggregate BGG Hotness Spreadsheet (One year)
 on: 
   workflow_dispatch: 
-
+    inputs:
+      year:
+        required: true
 jobs:
   fetch:
-    name: Aggregate data for the past month in a page
+    name: Aggregate data for the specific year
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-go@v4
       - id: bgghotness 
         run: |
-          go run aggregate/main.go -days=365 >> ${GITHUB_OUTPUT}
+          go run aggregate/main.go -year=${{ github.event.inputs.year }} >> ${GITHUB_OUTPUT}
         env:
           DOCUMENT_ID: ${{ secrets.DOCUMENT_ID }}
       - id: 'update_worksheet'

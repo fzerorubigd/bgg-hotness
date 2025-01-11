@@ -21,7 +21,7 @@ import (
 )
 
 const (
-	documentURL = "http://spreadsheets.google.com/feeds/download/spreadsheets/Export?key=%s&exportFormat=csv&gid=%d"
+	documentURL = "https://spreadsheets.google.com/feeds/download/spreadsheets/Export?key=%s&exportFormat=csv&gid=%d"
 	batchSize   = 20
 )
 
@@ -31,10 +31,12 @@ type Command struct {
 }
 
 func getCSV(ctx context.Context, doc string, page int, dateIn, dateOut time.Time) ([][]string, error) {
-	resp, err := http.Get(fmt.Sprintf(documentURL, doc, page))
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, fmt.Sprintf(documentURL, doc, page), nil)
+	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
 		return nil, err
 	}
+
 	defer resp.Body.Close()
 	csReader := csv.NewReader(resp.Body)
 	headers, err := csReader.Read()
@@ -118,12 +120,19 @@ func main() {
 		documentID string
 		pageID     int
 		days       int
+		year       int
+		month      int
+		count      int
 	)
 	flag.StringVar(&documentID, "document-id", os.Getenv("DOCUMENT_ID"), "The document id to get the data from")
 	flag.IntVar(&pageID, "page-id", 0, "The page id in document")
-	flag.IntVar(&days, "days", 14, "Number of days to get the report")
+	flag.IntVar(&days, "days", 14, "Number of days to get the report, will be ignored if year is set")
+	flag.IntVar(&year, "year", 0, "Year to get the report, if set, the days will be ignored")
+	flag.IntVar(&month, "month", 0, "Month to get the report, if set, year should be sert too")
+	flag.IntVar(&count, "count", 50, "Number of items to get the report")
 	flag.Parse()
 
+	today := fmt.Sprintf("%s_%d-days", time.Now().Format(time.DateOnly), days)
 	if days < 7 {
 		days = 7
 	}
@@ -131,7 +140,28 @@ func main() {
 		days = 500
 	}
 	weeks := time.Hour * 24 * time.Duration(days)
-	ballots, err := getCSV(ctx, documentID, pageID, time.Now().Add(-weeks), time.Now())
+	dayIn, dayOut := time.Now().Add(-weeks), time.Now()
+	if year != 0 {
+		if year < 2023 || year > time.Now().Year() {
+			log.Fatal("there is no data before mid 2023")
+		}
+
+		if month != 0 {
+			if month < 1 || month > 12 {
+				log.Fatal("month should be between 1 and 12")
+			}
+			dayIn = time.Date(year, time.Month(month), 1, 0, 0, 0, 0, time.Local)
+			dayOut = time.Date(year, time.Month(month)+1, 1, 0, 0, 0, 0, time.Local).Add(-time.Second)
+			today = fmt.Sprintf("Monthly - %d-%d", year, month)
+		} else {
+			dayIn = time.Date(year, 1, 1, 0, 0, 0, 0, time.Local)
+			dayOut = time.Date(year+1, 1, 1, 0, 0, 0, 0, time.Local).Add(-time.Second)
+			today = fmt.Sprintf("Yearly - %d", year)
+		}
+
+	}
+
+	ballots, err := getCSV(ctx, documentID, pageID, dayIn, dayOut)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -146,9 +176,9 @@ func main() {
 	}
 
 	result, _, _ := schulze.Compute(preferences, choices)
-	ids := make([]int64, 0, 50)
+	ids := make([]int64, 0, count)
 	for i := range result {
-		if i >= cap(ids) {
+		if i >= count {
 			break
 		}
 		id, err := strconv.ParseInt(result[i].Choice, 10, 0)
@@ -158,7 +188,7 @@ func main() {
 		ids = append(ids, id)
 	}
 	bgg := gobgg.NewBGGClient()
-	data := make([][]string, 50)
+	data := make([][]string, count)
 	for idx := 0; idx < len(ids); idx += batchSize {
 		var nextBatch []int64
 		if len(ids)-idx < batchSize {
@@ -190,7 +220,6 @@ func main() {
 	}
 	data = append([][]string{base}, data...)
 
-	today := fmt.Sprintf("%s_%d-days", time.Now().Format(time.DateOnly), days)
 	rs := fmt.Sprintf("%s!A1:E%d", today, len(data))
 	commands := []Command{
 		{
