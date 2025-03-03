@@ -5,7 +5,7 @@ go 1.23.4
 require (
 	github.com/fzerorubigd/gobgg v0.10.2
 	go.uber.org/ratelimit v0.3.1
-	golang.org/x/oauth2 v0.26.0
+	golang.org/x/oauth2 v0.27.0
 	google.golang.org/api v0.222.0
 	resenje.org/schulze v0.6.1
 )
