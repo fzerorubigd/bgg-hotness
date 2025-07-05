@@ -6,7 +6,7 @@ require (
 	github.com/fzerorubigd/gobgg v0.11.0
 	go.uber.org/ratelimit v0.3.1
 	golang.org/x/oauth2 v0.30.0
-	google.golang.org/api v0.237.0
+	google.golang.org/api v0.239.0
 	resenje.org/schulze v0.6.1
 )
 
