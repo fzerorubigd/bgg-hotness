@@ -16,6 +16,7 @@ jobs:
           go run aggregate/main.go -days=30 >> ${GITHUB_OUTPUT}
         env:
           DOCUMENT_ID: ${{ secrets.DOCUMENT_ID }}
+          BGG_TOKEN: ${{ secrets.BGG_TOKEN }}
       - id: 'update_worksheet'
         uses: jroehl/gsheet.action@v2.0.0 # you can specify '@release' to always have the latest changes
         with:

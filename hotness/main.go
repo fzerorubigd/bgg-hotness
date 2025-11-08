@@ -5,6 +5,7 @@ import (
 	"crypto/sha256"
 	"encoding/json"
 	"fmt"
+	"os"
 	"os/signal"
 	"syscall"
 	"time"
@@ -29,7 +30,15 @@ func main() {
 		syscall.SIGABRT)
 	defer cnl()
 	rl := ratelimit.New(1, ratelimit.Per(time.Second)) // creates a 10 per minutes rate limiter.
-	bgg := gobgg.NewBGGClient(gobgg.SetLimiter(rl))
+	token := os.Getenv("BGG_TOKEN")
+	if token == "" {
+		panic("BGG_TOKEN is not set")
+	}
+	opts := []gobgg.BGGClientOption{
+		gobgg.SetLimiter(rl),
+		gobgg.SetBearerToken(token),
+	}
+	bgg := gobgg.NewBGGClient(opts...)
 	hot, err := bgg.Hotness(ctx, 50)
 	if err != nil {
 		panic(err)

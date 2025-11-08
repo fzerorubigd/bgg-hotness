@@ -187,7 +187,11 @@ func main() {
 		}
 		ids = append(ids, id)
 	}
-	bgg := gobgg.NewBGGClient()
+	token := os.Getenv("BGG_TOKEN")
+	if token == "" {
+		panic("BGG_TOKEN is not set")
+	}
+	bgg := gobgg.NewBGGClient(gobgg.SetBearerToken(token))
 	data := make([][]string, count)
 	for idx := 0; idx < len(ids); idx += batchSize {
 		var nextBatch []int64
