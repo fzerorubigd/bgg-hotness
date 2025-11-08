@@ -1,6 +1,8 @@
 BGG Hotness Tracker
 ===
 
+[![Powered by BoardGameGeek](https://cf.geekdo-images.com/HZy35cmzmmyV9BarSuk6ug__small/img/gbE7sulIurZE_Tx8EQJXnZSKI6w=/fit-in/200x150/filters:strip_icc()/pic7779581.png)](https://boardgamegeek.com)
+
 What is this?
 ---
 This is a tracker that get the [BGG hotness](https://boardgamegeek.com/hotness) on each day, and the record it in a google spreadsheet. 
