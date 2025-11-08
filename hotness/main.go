@@ -34,9 +34,9 @@ func main() {
 	if token == "" {
 		panic("BGG_TOKEN is not set")
 	}
-	opts := []gobgg.BGGClientOption{
+	opts := []gobgg.OptionSetter{
 		gobgg.SetLimiter(rl),
-		gobgg.SetBearerToken(token),
+		gobgg.SetAuthToken(token),
 	}
 	bgg := gobgg.NewBGGClient(opts...)
 	hot, err := bgg.Hotness(ctx, 50)

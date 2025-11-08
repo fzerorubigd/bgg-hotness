@@ -191,7 +191,7 @@ func main() {
 	if token == "" {
 		panic("BGG_TOKEN is not set")
 	}
-	bgg := gobgg.NewBGGClient(gobgg.SetBearerToken(token))
+	bgg := gobgg.NewBGGClient(gobgg.SetAuthToken(token))
 	data := make([][]string, count)
 	for idx := 0; idx < len(ids); idx += batchSize {
 		var nextBatch []int64
