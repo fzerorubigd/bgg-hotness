@@ -1,11 +1,11 @@
 module github.com/fzerorubigd/bgg-hotness
 
-go 1.24.0
+go 1.25.0
 
 require (
 	github.com/fzerorubigd/gobgg v0.12.1
 	go.uber.org/ratelimit v0.3.1
-	golang.org/x/oauth2 v0.34.0
+	golang.org/x/oauth2 v0.36.0
 	google.golang.org/api v0.258.0
 	resenje.org/schulze v0.6.1
 )
