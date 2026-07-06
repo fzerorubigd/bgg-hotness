@@ -209,7 +209,7 @@ func main() {
 			data[i+idx] = append(data[i+idx],
 				fmt.Sprint(i+idx+1),
 				fmt.Sprint(things[i].ID),
-				fmt.Sprint(result[i].Wins),
+				fmt.Sprint(result[i+idx].Wins),
 				fmt.Sprintf("https://boardgamegeek.com/boardgame/%d/", things[i].ID),
 				things[i].Name)
 		}
