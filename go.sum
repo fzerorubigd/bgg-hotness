@@ -12,6 +12,8 @@ github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/felixge/httpsnoop v1.0.4 h1:NFTV2Zj1bL4mc9sqWACXbQFVBBg2W3GPvqp8/ESS2Wg=
 github.com/felixge/httpsnoop v1.0.4/go.mod h1:m8KPJKqk1gH5J9DgRY2ASl2lWCfGKXixSwevea8zH2U=
+github.com/fzerorubigd/bggo v0.2.1 h1:hAOGRhOrhk8GiwZRj8NdzbUlw5NldAf+eVzlwDD3bbo=
+github.com/fzerorubigd/bggo v0.2.1/go.mod h1:MwKQ6+8DHtCq/PQAx5o2uwVMAp1S3xXa+Nq456Dz28g=
 github.com/fzerorubigd/gobgg v0.12.1 h1:Z3jCfWrGwGaYai1Y2OzJ53HM4laHeJuCTZHHfvp3U3Q=
 github.com/fzerorubigd/gobgg v0.12.1/go.mod h1:fEOkL4U63+McRcqlr91ZO/gdELmHsqq2Ml4b9gTKoYo=
 github.com/go-logr/logr v1.2.2/go.mod h1:jdQByPbusPIv2/zmleS9BjJVeZ6kBagPoEUsqbVz/1A=
