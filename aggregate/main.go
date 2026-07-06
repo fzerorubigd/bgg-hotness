@@ -16,7 +16,7 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/fzerorubigd/gobgg"
+	"github.com/fzerorubigd/bggo"
 	"resenje.org/schulze"
 )
 
@@ -32,6 +32,9 @@ type Command struct {
 
 func getCSV(ctx context.Context, doc string, page int, dateIn, dateOut time.Time) ([][]string, error) {
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, fmt.Sprintf(documentURL, doc, page), nil)
+	if err != nil {
+		return nil, err
+	}
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
 		return nil, err
@@ -109,7 +112,6 @@ func toMap(in []string) schulze.Ballot[string] {
 
 func main() {
 	ctx, cnl := signal.NotifyContext(context.Background(),
-		syscall.SIGKILL,
 		syscall.SIGINT,
 		syscall.SIGTERM,
 		syscall.SIGQUIT,
@@ -191,7 +193,7 @@ func main() {
 	if token == "" {
 		panic("BGG_TOKEN is not set")
 	}
-	bgg := gobgg.NewBGGClient(gobgg.SetAuthToken(token))
+	c := bggo.NewClient(token)
 	data := make([][]string, count)
 	for idx := 0; idx < len(ids); idx += batchSize {
 		var nextBatch []int64
@@ -200,18 +202,33 @@ func main() {
 		} else {
 			nextBatch = ids[idx : idx+batchSize]
 		}
-		things, err := bgg.GetThings(ctx, gobgg.GetThingIDs(nextBatch...))
+		things, err := c.GetThings(ctx, bggo.GetThingsRequest{IDs: nextBatch})
 		if err != nil {
 			panic(err)
 		}
 
-		for i := range nextBatch {
+		// BGG returns things in its own order and silently drops invalid/retired
+		// IDs, so index the results by ID and look up each requested id rather than
+		// assuming the response aligns positionally with the request.
+		byID := make(map[int64]bggo.ThingResult, len(things))
+		for _, t := range things {
+			byID[t.ID] = t
+		}
+
+		for i, id := range nextBatch {
+			// On a miss (id dropped upstream), emit the row with the known id and a
+			// blank name rather than panicking. Rank (i+idx+1) and Wins
+			// (result[i+idx]) come from the Schulze order and are correct (PR #170).
+			name := ""
+			if t, ok := byID[id]; ok {
+				name = t.Name
+			}
 			data[i+idx] = append(data[i+idx],
 				fmt.Sprint(i+idx+1),
-				fmt.Sprint(things[i].ID),
+				fmt.Sprint(id),
 				fmt.Sprint(result[i+idx].Wins),
-				fmt.Sprintf("https://boardgamegeek.com/boardgame/%d/", things[i].ID),
-				things[i].Name)
+				fmt.Sprintf("https://boardgamegeek.com/boardgame/%d/", id),
+				name)
 		}
 	}
 
