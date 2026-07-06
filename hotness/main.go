@@ -10,7 +10,7 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/fzerorubigd/gobgg"
+	"github.com/fzerorubigd/bggo"
 	"go.uber.org/ratelimit"
 )
 
@@ -19,65 +19,37 @@ type Command struct {
 	Args    map[string]interface{} `json:"args"`
 }
 
-const batchSize = 20
-
 func main() {
 	ctx, cnl := signal.NotifyContext(context.Background(),
-		syscall.SIGKILL,
 		syscall.SIGINT,
 		syscall.SIGTERM,
 		syscall.SIGQUIT,
 		syscall.SIGABRT)
 	defer cnl()
-	rl := ratelimit.New(1, ratelimit.Per(time.Second)) // creates a 10 per minutes rate limiter.
+	rl := ratelimit.New(1, ratelimit.Per(time.Second)) // 1 request per second.
 	token := os.Getenv("BGG_TOKEN")
 	if token == "" {
 		panic("BGG_TOKEN is not set")
 	}
-	opts := []gobgg.OptionSetter{
-		gobgg.SetLimiter(rl),
-		gobgg.SetAuthToken(token),
-	}
-	bgg := gobgg.NewBGGClient(opts...)
-	hot, err := bgg.Hotness(ctx, 50)
+	c := bggo.NewClient(token, bggo.WithLimiter(rl))
+	hot, err := c.GetHotness(ctx, bggo.GetHotnessRequest{Count: 50})
 	if err != nil {
 		panic(err)
 	}
 
-	ids := make([]int64, len(hot))
+	// bggo's HotnessItem carries Name inline, so the name column is filled here
+	// directly — no second batched name lookup, and no positional-index hazard.
 	data := make([][]string, len(hot))
 	aggregate := make([]string, len(hot))
 	for i := range hot {
-		ids[i] = hot[i].ID
 		aggregate[i] = fmt.Sprint(hot[i].ID)
 		data[i] = append(data[i],
 			fmt.Sprint(i+1),
 			fmt.Sprint(hot[i].ID),
 			fmt.Sprint(hot[i].Delta),
 			fmt.Sprintf("https://boardgamegeek.com/boardgame/%d/", hot[i].ID),
+			hot[i].Name,
 		)
-	}
-
-	for idx := 0; idx < len(ids); idx += batchSize {
-		var nextBatch []int64
-		if len(ids)-idx < batchSize {
-			nextBatch = ids[idx:]
-		} else {
-			nextBatch = ids[idx : idx+batchSize]
-		}
-		things, err := bgg.GetThings(ctx, gobgg.GetThingIDs(nextBatch...))
-		if err != nil {
-			// here is the hack, this sheet is not as important as the main, so just fake it
-			things = make([]gobgg.ThingResult, len(nextBatch))
-		}
-
-		for i := range nextBatch {
-			data[i+idx] = append(data[i+idx], things[i].Name)
-		}
-	}
-
-	if len(data) != len(hot) {
-		panic("why?")
 	}
 
 	base := []string{
