@@ -35,7 +35,7 @@ jobs:
           fi
       - id: bgghotness
         run: |
-          go run aggregate/main.go -year=${{ github.event.inputs.year }} >> ${GITHUB_OUTPUT}
+          go run ./aggregate -year=${{ github.event.inputs.year }} >> ${GITHUB_OUTPUT}
         env:
           DOCUMENT_ID: ${{ secrets.DOCUMENT_ID }}
           BGG_TOKEN: ${{ secrets.BGG_TOKEN }}
