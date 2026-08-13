@@ -6,9 +6,15 @@ import (
 	"fmt"
 	"html"
 	"os"
+	"sort"
 	"strings"
 	"time"
 )
+
+// feedCap bounds the feed to its most recent entries by count. It is a
+// nice-to-have — the entries are the product — so it is given up entirely for any
+// run whose sort key could not be fully parsed (see updateFeed).
+const feedCap = 200
 
 // Atom feed output. The aggregate job renders one entry per run into an Atom
 // feed committed to a dedicated branch; a reader (my-rss) subscribes to the raw
@@ -96,6 +102,56 @@ func updateFeed(path, title string, published, updated time.Time, rows [][]strin
 	}
 	if !replaced {
 		feed.Entry = append([]atomEntry{entry}, feed.Entry...)
+	}
+
+	// Order newest-first by the period each entry describes, then cap by count.
+	// The ordering is load-bearing: the insert-or-replace above ran against the
+	// FULL existing set, and the cap is applied only AFTER — parse the whole set,
+	// insert/replace, sort, truncate, write. Truncating before the replace scan
+	// would hide an entry past the cap from that scan, the only way a duplicate id
+	// could be produced.
+	//
+	// published is compared as a parsed instant, not by lexical string order:
+	// lexical order is chronological only because every value is written via
+	// .UTC().Format(time.RFC3339) as a fixed-width Z form, so a later format or
+	// zone change would silently misorder with nothing failing. Parsing ties the
+	// sort to the instant rather than the serialization.
+	type keyedEntry struct {
+		entry atomEntry
+		when  time.Time
+	}
+	keyed := make([]keyedEntry, len(feed.Entry))
+	capSafe := true
+	for i, e := range feed.Entry {
+		when, err := time.Parse(time.RFC3339, e.Published)
+		if err != nil {
+			// Non-fatal, matching the feed path's policy of never aborting the
+			// sheet output. A key we could not parse makes the cap unsafe this
+			// run — enforcing it would delete on an ordering derived from an
+			// incomplete key set — so record a reason instead of guessing.
+			fmt.Fprintf(os.Stderr, "feed: unparseable published %q on entry %q: %v\n", e.Published, e.ID, err)
+			capSafe = false
+		}
+		keyed[i] = keyedEntry{entry: e, when: when}
+	}
+	// SliceStable, not Slice: tied published values must keep insertion order.
+	// An unstable sort would permute ties arbitrarily, and the publish step's
+	// no-op guard is a byte-level `git diff --cached --quiet`, so the permutation
+	// would manufacture a commit with no semantic change on every run.
+	sort.SliceStable(keyed, func(i, j int) bool { return keyed[i].when.After(keyed[j].when) })
+
+	// Cap by count, but skip truncation entirely for any run where a key failed to
+	// parse — the skip is per RUN, not per entry: dropping "only" the sorted tail
+	// still deletes on an incomplete ordering. When skipped, the feed drifts over
+	// the cap until the stderr line is acted on; nothing is lost. The cap is a
+	// nice-to-have; the entries are the product.
+	keep := len(keyed)
+	if capSafe && keep > feedCap {
+		keep = feedCap
+	}
+	feed.Entry = make([]atomEntry, keep)
+	for i := 0; i < keep; i++ {
+		feed.Entry[i] = keyed[i].entry
 	}
 
 	out, err := xml.MarshalIndent(&feed, "", "  ")

@@ -1,7 +1,10 @@
 name: Aggregate BGG Hotness Spreadsheet (One month)
 on:
   schedule:
-  - cron: "0 14 1 * 1"
+  # 1st of each month only. cron ORs day-of-month and day-of-week, so the old
+  # "0 14 1 * 1" fired on the 1st AND every Monday (~9 runs/month); the empty
+  # day-of-week field ("*") restricts it to the 1st.
+  - cron: "0 14 1 * *"
   workflow_dispatch:
 
 jobs:

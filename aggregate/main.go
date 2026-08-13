@@ -110,6 +110,40 @@ func toMap(in []string) schulze.Ballot[string] {
 	return res
 }
 
+// aggregationPeriod computes the date window [dayIn, dayOut] and the worksheet/feed
+// title for a run. now is injected rather than read internally so both the rolling
+// and the -year/-month paths are testable — and so the invariant the feed's
+// published field rests on is checkable: published is the END OF THE PERIOD THIS
+// ENTRY DESCRIBES. On the rolling path a window ends now, so dayOut is wall-clock
+// and that is correct as written; on -year/-month it is a fixed period-end instant.
+// Validation of year/month stays in the caller so this function is pure.
+//
+// The title is deliberately built from the pre-clamp days, matching prior
+// behaviour; the clamp to [7, 500] applies only to the window.
+func aggregationPeriod(now time.Time, days, year, month int) (dayIn, dayOut time.Time, title string) {
+	title = fmt.Sprintf("%s_%d-days", now.Format(time.DateOnly), days)
+	if days < 7 {
+		days = 7
+	}
+	if days > 500 {
+		days = 500
+	}
+	window := time.Hour * 24 * time.Duration(days)
+	dayIn, dayOut = now.Add(-window), now
+	if year != 0 {
+		if month != 0 {
+			dayIn = time.Date(year, time.Month(month), 1, 0, 0, 0, 0, time.Local)
+			dayOut = time.Date(year, time.Month(month)+1, 1, 0, 0, 0, 0, time.Local).Add(-time.Second)
+			title = fmt.Sprintf("Monthly - %d-%d", year, month)
+		} else {
+			dayIn = time.Date(year, 1, 1, 0, 0, 0, 0, time.Local)
+			dayOut = time.Date(year+1, 1, 1, 0, 0, 0, 0, time.Local).Add(-time.Second)
+			title = fmt.Sprintf("Yearly - %d", year)
+		}
+	}
+	return dayIn, dayOut, title
+}
+
 func main() {
 	ctx, cnl := signal.NotifyContext(context.Background(),
 		syscall.SIGINT,
@@ -134,34 +168,15 @@ func main() {
 	flag.IntVar(&count, "count", 50, "Number of items to get the report")
 	flag.Parse()
 
-	today := fmt.Sprintf("%s_%d-days", time.Now().Format(time.DateOnly), days)
-	if days < 7 {
-		days = 7
-	}
-	if days > 500 {
-		days = 500
-	}
-	weeks := time.Hour * 24 * time.Duration(days)
-	dayIn, dayOut := time.Now().Add(-weeks), time.Now()
 	if year != 0 {
 		if year < 2023 || year > time.Now().Year() {
 			log.Fatal("there is no data before mid 2023")
 		}
-
-		if month != 0 {
-			if month < 1 || month > 12 {
-				log.Fatal("month should be between 1 and 12")
-			}
-			dayIn = time.Date(year, time.Month(month), 1, 0, 0, 0, 0, time.Local)
-			dayOut = time.Date(year, time.Month(month)+1, 1, 0, 0, 0, 0, time.Local).Add(-time.Second)
-			today = fmt.Sprintf("Monthly - %d-%d", year, month)
-		} else {
-			dayIn = time.Date(year, 1, 1, 0, 0, 0, 0, time.Local)
-			dayOut = time.Date(year+1, 1, 1, 0, 0, 0, 0, time.Local).Add(-time.Second)
-			today = fmt.Sprintf("Yearly - %d", year)
+		if month != 0 && (month < 1 || month > 12) {
+			log.Fatal("month should be between 1 and 12")
 		}
-
 	}
+	dayIn, dayOut, today := aggregationPeriod(time.Now(), days, year, month)
 
 	ballots, err := getCSV(ctx, documentID, pageID, dayIn, dayOut)
 	if err != nil {
