@@ -34,7 +34,7 @@ jobs:
           fi
       - id: bgghotness
         run: |
-          go run aggregate/main.go -days=30 >> ${GITHUB_OUTPUT}
+          go run ./aggregate -days=30 >> ${GITHUB_OUTPUT}
         env:
           DOCUMENT_ID: ${{ secrets.DOCUMENT_ID }}
           BGG_TOKEN: ${{ secrets.BGG_TOKEN }}

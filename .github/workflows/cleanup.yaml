@@ -13,7 +13,7 @@ jobs:
       - uses: actions/setup-go@v4
       - id: bgghotness 
         run: |
-          go run cleanup/main.go >> ${GITHUB_OUTPUT}
+          go run ./cleanup >> ${GITHUB_OUTPUT}
         env:
           DOCUMENT_ID: ${{ secrets.DOCUMENT_ID }}
           GSHEET_CLIENT_EMAIL: ${{ secrets.GOOGLE_EMAIL }}

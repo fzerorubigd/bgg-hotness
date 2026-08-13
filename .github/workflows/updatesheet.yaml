@@ -13,7 +13,7 @@ jobs:
       - uses: actions/setup-go@v4
       - id: bgghotness 
         run: |
-          go run hotness/main.go >> ${GITHUB_OUTPUT}
+          go run ./hotness >> ${GITHUB_OUTPUT}
         env:
           BGG_TOKEN: ${{ secrets.BGG_TOKEN }}
       - id: 'update_worksheet'
