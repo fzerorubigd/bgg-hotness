@@ -1,5 +1,8 @@
 name: Go
-on: [push]
+on:
+  push:
+    branches: [main]
+  pull_request:
 
 jobs:
   build:
@@ -11,3 +14,5 @@ jobs:
         uses: actions/setup-go@v4
       - name: Build
         run: go build -v ./...
+      - name: Test
+        run: go test ./...

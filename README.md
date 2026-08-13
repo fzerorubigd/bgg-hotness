@@ -16,4 +16,4 @@ We have a Podcast (In Farsi, [پادساعتگرد](https://podcasters.spotify.c
 
 How?
 --- 
-It uses my [GoBGG](https://github.com/fzerorubigd/gobgg) library to fetch the data and then the [gsheet action](https://github.com/jroehl/gsheet.action) to push the data into google sheet. 
+It uses my [bggo](https://github.com/fzerorubigd/bggo) library — a Go client and MCP server for the BGG API — to fetch the data and then the [gsheet action](https://github.com/jroehl/gsheet.action) to push the data into google sheet. 
