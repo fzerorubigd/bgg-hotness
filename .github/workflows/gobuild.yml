@@ -1,5 +1,11 @@
 name: Go
 on:
+  # push is scoped to main for two reasons. The first, from when this was written:
+  # so the README drift guard evaluates on pull requests rather than only after a
+  # merge. The second post-dates that change and is not visible from it — the feed
+  # branch created later is an orphan holding only feed.xml and no go.mod, so an
+  # unqualified `on: [push]` would start a Go build on every feed publish against a
+  # module-less tree and fail forever. Do not broaden this back to a bare push.
   push:
     branches: [main]
   pull_request:
