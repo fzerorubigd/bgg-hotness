@@ -194,7 +194,12 @@ func main() {
 		panic("BGG_TOKEN is not set")
 	}
 	c := bggo.NewClient(token)
-	data := make([][]string, count)
+	// Size to the number of ranked ids actually produced, not the requested count:
+	// the Schulze result can yield fewer distinct choices than count, and a
+	// count-sized slice leaves the tail nil, which is marshalled to the sheet (and
+	// would be rendered into the feed) as empty rows. Pre-existing; fixed here in
+	// passing because the feed is what would make those empty rows user-visible.
+	data := make([][]string, len(ids))
 	for idx := 0; idx < len(ids); idx += batchSize {
 		var nextBatch []int64
 		if len(ids)-idx < batchSize {
@@ -269,4 +274,15 @@ func main() {
 	fmt.Printf("data_array<<%s\n", eof)
 	fmt.Println(string(x))
 	fmt.Println(eof)
+
+	// Publish an Atom feed entry for this run, but only after the heredoc above is
+	// on stdout — stdout here is the Actions output protocol the sheet update
+	// consumes, so the additive feed must not be able to regress it. Any feed
+	// failure logs to stderr and returns rather than aborting, for the same reason.
+	// data[1:] is the ranked rows; data[0] is the header prepended above.
+	if feedFile := os.Getenv("FEED_FILE"); feedFile != "" {
+		if err := updateFeed(feedFile, today, dayOut, time.Now(), data[1:]); err != nil {
+			fmt.Fprintf(os.Stderr, "feed: %v (sheet output unaffected)\n", err)
+		}
+	}
 }

@@ -1,6 +1,6 @@
 name: Aggregate BGG Hotness Spreadsheet (One year)
-on: 
-  workflow_dispatch: 
+on:
+  workflow_dispatch:
     inputs:
       year:
         required: true
@@ -8,15 +8,38 @@ jobs:
   fetch:
     name: Aggregate data for the specific year
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-go@v4
-      - id: bgghotness 
+      - name: Prepare feed branch worktree
+        # Check the feed branch out into its own worktree so main.go can read the
+        # existing feed and rewrite it in place (read-modify-write), and the commit
+        # below never force-pushes. The yearly title carries no date, so a
+        # re-dispatch replaces its entry rather than appending — never wiping the
+        # other jobs' entries. The branch ref is fetched explicitly because
+        # checkout@v3 only brings the default branch.
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git ls-remote --exit-code --heads origin feed >/dev/null 2>&1; then
+            git fetch origin feed
+            git worktree add feed-branch FETCH_HEAD
+            git -C feed-branch switch -C feed
+          else
+            git worktree add --detach feed-branch
+            git -C feed-branch switch --orphan feed
+            git -C feed-branch read-tree --empty
+          fi
+      - id: bgghotness
         run: |
           go run aggregate/main.go -year=${{ github.event.inputs.year }} >> ${GITHUB_OUTPUT}
         env:
           DOCUMENT_ID: ${{ secrets.DOCUMENT_ID }}
           BGG_TOKEN: ${{ secrets.BGG_TOKEN }}
+          FEED_FILE: ${{ github.workspace }}/feed-branch/feed.xml
       - id: 'update_worksheet'
         uses: jroehl/gsheet.action@v2.0.0 # you can specify '@release' to always have the latest changes
         with:
@@ -31,3 +54,15 @@ jobs:
           #  the output of the action can be found in ${{ steps.update_worksheet.outputs.results }}
           RESULTS: ${{ steps.update_worksheet.outputs.results }}
         run: echo "$RESULTS" | jq
+      - name: Publish feed
+        working-directory: feed-branch
+        run: |
+          set -euo pipefail
+          [ -f feed.xml ] || { echo "no feed produced; skipping"; exit 0; }
+          git add feed.xml
+          if git diff --cached --quiet; then
+            echo "feed unchanged; nothing to commit"
+          else
+            git commit -m "chore(feed): update from ${{ github.workflow }}"
+            git push origin HEAD:feed
+          fi
