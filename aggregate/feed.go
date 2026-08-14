@@ -40,6 +40,15 @@ const feedCap = 200
 // Three feeds MUST NOT share an <id> — a reader may legitimately dedupe or merge feeds
 // on it — which the per-filename derivation makes structural.
 //
+// Historical note: a prior single feed deliberately let per-game and digest entries
+// COEXIST in one file — a numbered design decision ("Decision 2"), once asserted by a
+// test. The split supersedes it: each shape now has its own file, and mixing the two in
+// one feed is a MISCONFIGURATION rather than a supported state, because the per-entry sort
+// key that coexistence would require is intransitive (see finalizeFeed). The literal
+// "Decision 2" is kept here so a grep for the removed identifier lands on this record
+// rather than returning nothing. Recorded so the three near-identical writers are not
+// mistaken for an accident and consolidated back into one.
+//
 // Entry identity: a per-game entry id is tagPrefix + "game:" + <BGG id>; a digest entry
 // id is tagPrefix + slug(title); a FEED-level id is tagPrefix + <filename>. All three
 // share tagPrefix; per-game vs digest ENTRY ids cannot collide because slug() emits only
@@ -343,7 +352,17 @@ func finalizeFeed(feed *atomFeed, rankByID map[string]int, now time.Time, sortBy
 		}
 		keyed[i] = keyedEntry{entry: e, when: when}
 		// Feed-level updated is always max(entry.updated), independent of the sort key.
-		if u, uerr := time.Parse(time.RFC3339, e.Updated); uerr == nil && u.After(maxUpdated) {
+		// When updated IS the sort key (weekly) a parse failure was already reported above,
+		// so warn here only on the digest path, where updated is a separate field and would
+		// otherwise be dropped from the max with no trace — the base recorded a reason
+		// rather than guess, and this keeps that policy. It does NOT touch capSafe: the
+		// digest cap follows published, and a bad updated does not make a published-ordered
+		// truncation unsafe.
+		if u, uerr := time.Parse(time.RFC3339, e.Updated); uerr != nil {
+			if sortByPublished {
+				fmt.Fprintf(os.Stderr, "feed: unparseable updated %q on entry %q: %v\n", e.Updated, e.ID, uerr)
+			}
+		} else if u.After(maxUpdated) {
 			maxUpdated = u
 		}
 	}
