@@ -239,6 +239,14 @@ func updateFeedPerGame(path string, now time.Time, rows [][]string) error {
 				Link:      links,
 				Content:   content,
 			})
+			// Register the new entry's index so a LATER row with the same id in THIS
+			// run updates it in place rather than appending a second entry with a
+			// duplicate id. byID was built from the entries already on disk, so without
+			// this an in-run duplicate would orphan the second copy permanently. Today's
+			// rows come from the ranking's own key set (distinct by construction), so
+			// this makes the no-duplicate invariant local instead of resting on that
+			// upstream property.
+			byID[entryID] = len(feed.Entry) - 1
 		}
 	}
 
