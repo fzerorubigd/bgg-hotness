@@ -170,9 +170,86 @@ func TestUpdateFeedDigestSkipsTruncationOnUnparseablePublished(t *testing.T) {
 	}
 }
 
-// Control: with every key parseable the same over-cap set DOES truncate — so the
-// skip above is doing the work, not a broken cap.
-func TestUpdateFeedTruncatesWhenAllParseable(t *testing.T) {
+// rawPerGameEntries builds feedCap+1 per-game-shaped entries (game: ids, a BGG link,
+// both timestamps set), so a test can drive updateFeedPerGame over the cap. Returned so
+// the caller can corrupt one field before writing.
+func rawPerGameEntries() []atomEntry {
+	entries := make([]atomEntry, feedCap+1)
+	for i := range entries {
+		ts := time.Date(2026, 1, 1, 0, 0, 0, 0, time.UTC).Add(time.Duration(i) * time.Hour).Format(time.RFC3339)
+		id := fmt.Sprintf("%d", 1000+i)
+		entries[i] = atomEntry{
+			Title:     "Game " + id,
+			ID:        tagPrefix + gamePrefix + id,
+			Published: ts, Updated: ts,
+			Link:    []atomLink{{Rel: "alternate", Href: "https://boardgamegeek.com/boardgame/" + id}},
+			Content: atomContent{Type: "html", Text: "<p>x</p>"},
+		}
+	}
+	return entries
+}
+
+// The WEEKLY (per-game) path sorts and caps by UPDATED, so a corrupt updated — NOT
+// published — is what must make truncation unsafe. This inverts the digest fixture above
+// (every published parses, one updated does not) and guards the weekly branch's capSafe
+// coupling, which every other cap test leaves untested because they all drive the digest
+// path — and weekly is the live subscriber-facing feed. If capSafe silently followed
+// published here it would truncate on a key it did not sort by; this test fails when it does.
+func TestUpdateFeedPerGameSkipsTruncationOnUnparseableUpdated(t *testing.T) {
+	path := filepath.Join(t.TempDir(), "feed.xml")
+
+	entries := rawPerGameEntries()
+	entries[0].Updated = "not-a-timestamp" // corrupt sort key (per-game sorts by updated)
+	writeRawFeed(t, path, entries)
+
+	// A run for a NEW game (id not already present) appends one entry, taking the feed to
+	// feedCap+2. With one updated unparseable the cap is skipped, so nothing is cut.
+	now := time.Date(2027, 1, 1, 0, 0, 0, 0, time.UTC)
+	rows := [][]string{{"1", "9999", "5", "https://boardgamegeek.com/boardgame/9999", "New Game"}}
+	if err := updateFeedPerGame(path, testFeedTitle, now, rows); err != nil {
+		t.Fatal(err)
+	}
+
+	feed := parseFeed(t, path)
+	if len(feed.Entry) != feedCap+2 {
+		t.Fatalf("weekly cap must be skipped when an updated is unparseable: got %d, want %d", len(feed.Entry), feedCap+2)
+	}
+	found := false
+	for _, e := range feed.Entry {
+		if e.Updated == "not-a-timestamp" {
+			found = true
+		}
+	}
+	if !found {
+		t.Error("the unparseable-updated entry must be retained, not deleted on a guess")
+	}
+}
+
+// Control for the per-game path: with every updated parseable the same over-cap set DOES
+// truncate — so the skip above is the capSafe coupling doing work, not a broken cap.
+func TestUpdateFeedPerGameTruncatesWhenAllParseable(t *testing.T) {
+	path := filepath.Join(t.TempDir(), "feed.xml")
+
+	writeRawFeed(t, path, rawPerGameEntries())
+
+	now := time.Date(2027, 1, 1, 0, 0, 0, 0, time.UTC)
+	rows := [][]string{{"1", "9999", "5", "https://boardgamegeek.com/boardgame/9999", "New Game"}}
+	if err := updateFeedPerGame(path, testFeedTitle, now, rows); err != nil {
+		t.Fatal(err)
+	}
+
+	feed := parseFeed(t, path)
+	if len(feed.Entry) != feedCap {
+		t.Fatalf("with all updated parseable the weekly cap applies: got %d, want %d", len(feed.Entry), feedCap)
+	}
+}
+
+// Control for the DIGEST path: with every published parseable the over-cap digest set DOES
+// truncate — so the skip in TestUpdateFeedDigestSkipsTruncationOnUnparseablePublished is
+// doing the work, not a broken cap. (Named with Digest to match the per-game pair now
+// sitting above it, so none of the cap-and-truncation tests is silent about which branch
+// it drives. Other digest-path tests here predate the split and are left as-is.)
+func TestUpdateFeedDigestTruncatesWhenAllParseable(t *testing.T) {
 	path := filepath.Join(t.TempDir(), "feed.xml")
 
 	entries := make([]atomEntry, feedCap+1)
