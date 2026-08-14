@@ -33,8 +33,13 @@ jobs:
             git -C feed-branch read-tree --empty
           fi
       - id: bgghotness
+        # -per-game: this weekly job emits one feed entry per game (updated in place,
+        # each linking its BGG page). It is the ONLY workflow that sets this flag; the
+        # monthly and yearly jobs omit it and keep the single-digest-entry shape, which
+        # is what stops their runs overwriting these per-game entries in the shared
+        # feed.xml. The cadence here is weekly (cron above); the window is 14 days.
         run: |
-          go run ./aggregate >> ${GITHUB_OUTPUT}
+          go run ./aggregate -per-game >> ${GITHUB_OUTPUT}
         env:
           DOCUMENT_ID: ${{ secrets.DOCUMENT_ID }}
           BGG_TOKEN: ${{ secrets.BGG_TOKEN }}

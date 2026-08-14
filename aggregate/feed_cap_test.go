@@ -30,7 +30,7 @@ func TestUpdateFeedCapsByCount(t *testing.T) {
 	total := feedCap + 5
 	for i := 0; i < total; i++ {
 		pub := base.Add(time.Duration(i) * time.Hour) // strictly increasing
-		if err := updateFeed(path, fmt.Sprintf("run-%04d", i), pub, pub, sampleRows()); err != nil {
+		if err := updateFeedDigest(path, fmt.Sprintf("run-%04d", i), pub, pub, sampleRows()); err != nil {
 			t.Fatal(err)
 		}
 	}
@@ -47,27 +47,30 @@ func TestUpdateFeedCapsByCount(t *testing.T) {
 	}
 }
 
-// A backfilled old-period entry, added last, must sort BELOW a recent one rather
-// than sitting at the top on its old published (the pre-sort insertion behaviour).
-func TestUpdateFeedSortsByPublishedDescFixesBackfill(t *testing.T) {
+// The feed is ordered newest-first by UPDATED (last change), not published (first
+// publication): a re-generated old period surfaces at the top. Here the old-period
+// entry is generated LATER, so despite its far-older published it sorts above the
+// recent one — the opposite of a published sort, which is the point of the change.
+func TestUpdateFeedSortsByUpdatedDesc(t *testing.T) {
 	path := filepath.Join(t.TempDir(), "feed.xml")
-	gen := time.Date(2026, 8, 13, 0, 0, 0, 0, time.UTC)
 	recentPub := time.Date(2026, 8, 1, 0, 0, 0, 0, time.UTC)
 	oldPub := time.Date(2024, 1, 1, 0, 0, 0, 0, time.UTC)
+	genEarly := time.Date(2026, 8, 13, 0, 0, 0, 0, time.UTC)
+	genLate := time.Date(2026, 8, 20, 0, 0, 0, 0, time.UTC)
 
-	if err := updateFeed(path, "2026-08-01_14-days", recentPub, gen, sampleRows()); err != nil {
+	if err := updateFeedDigest(path, "2026-08-01_14-days", recentPub, genEarly, sampleRows()); err != nil {
 		t.Fatal(err)
 	}
-	if err := updateFeed(path, "Yearly - 2024", oldPub, gen.Add(time.Hour), sampleRows()); err != nil {
+	if err := updateFeedDigest(path, "Yearly - 2024", oldPub, genLate, sampleRows()); err != nil {
 		t.Fatal(err)
 	}
 
 	feed := parseFeed(t, path)
-	if feed.Entry[0].Title != "2026-08-01_14-days" {
-		t.Errorf("newest published should sort first even though added last; got %q", feed.Entry[0].Title)
+	if feed.Entry[0].Title != "Yearly - 2024" {
+		t.Errorf("the more recently UPDATED entry should sort first regardless of published; got %q", feed.Entry[0].Title)
 	}
-	if feed.Entry[1].Title != "Yearly - 2024" {
-		t.Errorf("backfilled old period should sort below; got %q", feed.Entry[1].Title)
+	if feed.Entry[1].Title != "2026-08-01_14-days" {
+		t.Errorf("the less recently updated entry should sort below; got %q", feed.Entry[1].Title)
 	}
 }
 
@@ -87,7 +90,7 @@ func TestUpdateFeedReplaceNoDuplicateAfterSort(t *testing.T) {
 		{"2026-06-01_14-days", pubB, pubB},
 		{"Yearly - 2025", pubA, pubA.Add(48 * time.Hour)}, // re-dispatch, later gen
 	} {
-		if err := updateFeed(path, s.title, s.pub, s.gen, sampleRows()); err != nil {
+		if err := updateFeedDigest(path, s.title, s.pub, s.gen, sampleRows()); err != nil {
 			t.Fatal(err)
 		}
 	}
@@ -115,10 +118,10 @@ func TestUpdateFeedReAddBelowCapSurvives(t *testing.T) {
 	path := filepath.Join(t.TempDir(), "feed.xml")
 	base := time.Date(2026, 1, 1, 0, 0, 0, 0, time.UTC)
 
-	if err := updateFeed(path, "2026-02-01_14-days", base.Add(31*24*time.Hour), base, sampleRows()); err != nil {
+	if err := updateFeedDigest(path, "2026-02-01_14-days", base.Add(31*24*time.Hour), base, sampleRows()); err != nil {
 		t.Fatal(err)
 	}
-	if err := updateFeed(path, "Yearly - 2025", base, base.Add(time.Hour), sampleRows()); err != nil {
+	if err := updateFeedDigest(path, "Yearly - 2025", base, base.Add(time.Hour), sampleRows()); err != nil {
 		t.Fatal(err)
 	}
 
@@ -128,27 +131,27 @@ func TestUpdateFeedReAddBelowCapSurvives(t *testing.T) {
 	}
 }
 
-// Skip truncation PER RUN, not per entry: if any published in the set fails to
-// parse, the cap is not enforced at all and nothing is deleted — a cap on a key you
-// could not parse is deleting on a guess. The realistic trigger is a future
+// Skip truncation PER RUN, not per entry: if any UPDATED in the set (the sort key)
+// fails to parse, the cap is not enforced at all and nothing is deleted — a cap on a
+// key you could not parse is deleting on a guess. The realistic trigger is a future
 // writing-format change; here one existing entry is corrupt.
-func TestUpdateFeedSkipsTruncationOnUnparseablePublished(t *testing.T) {
+func TestUpdateFeedSkipsTruncationOnUnparseableUpdated(t *testing.T) {
 	path := filepath.Join(t.TempDir(), "feed.xml")
 
 	entries := make([]atomEntry, feedCap+1)
 	for i := range entries {
-		pub := time.Date(2026, 1, 1, 0, 0, 0, 0, time.UTC).Add(time.Duration(i) * time.Hour).Format(time.RFC3339)
+		ts := time.Date(2026, 1, 1, 0, 0, 0, 0, time.UTC).Add(time.Duration(i) * time.Hour).Format(time.RFC3339)
 		id := fmt.Sprintf("run-%04d", i)
 		entries[i] = atomEntry{
-			Title: id, ID: tagPrefix + id, Published: pub, Updated: pub,
+			Title: id, ID: tagPrefix + id, Published: ts, Updated: ts,
 			Content: atomContent{Type: "html", Text: "<ol></ol>"},
 		}
 	}
-	entries[0].Published = "not-a-timestamp" // the corrupt key
+	entries[0].Updated = "not-a-timestamp" // the corrupt sort key
 	writeRawFeed(t, path, entries)
 
-	newPub := time.Date(2027, 1, 1, 0, 0, 0, 0, time.UTC)
-	if err := updateFeed(path, "run-new", newPub, newPub, sampleRows()); err != nil {
+	newTS := time.Date(2027, 1, 1, 0, 0, 0, 0, time.UTC)
+	if err := updateFeedDigest(path, "run-new", newTS, newTS, sampleRows()); err != nil {
 		t.Fatal(err)
 	}
 
@@ -158,7 +161,7 @@ func TestUpdateFeedSkipsTruncationOnUnparseablePublished(t *testing.T) {
 	}
 	found := false
 	for _, e := range feed.Entry {
-		if e.Published == "not-a-timestamp" {
+		if e.Updated == "not-a-timestamp" {
 			found = true
 		}
 	}
@@ -184,7 +187,7 @@ func TestUpdateFeedTruncatesWhenAllParseable(t *testing.T) {
 	writeRawFeed(t, path, entries)
 
 	newPub := time.Date(2027, 1, 1, 0, 0, 0, 0, time.UTC)
-	if err := updateFeed(path, "run-new", newPub, newPub, sampleRows()); err != nil {
+	if err := updateFeedDigest(path, "run-new", newPub, newPub, sampleRows()); err != nil {
 		t.Fatal(err)
 	}
 
