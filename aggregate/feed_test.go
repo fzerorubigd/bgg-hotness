@@ -251,6 +251,30 @@ func TestPerGameStickyTitleOnTransientBlankName(t *testing.T) {
 	}
 }
 
+// Two rows sharing an id in ONE run must produce a single entry, not append a second
+// with a duplicate id. byID is seeded from the on-disk entries, so the guard registers
+// each appended entry's index for the rest of the loop; the later row updates the first
+// in place. (Current inputs can't produce this — ids come from the ranking's own key
+// set — so the guard makes the invariant local rather than resting on that property.)
+func TestPerGameDuplicateIDInOneRunUpdatesNotAppends(t *testing.T) {
+	path := filepath.Join(t.TempDir(), "feed.xml")
+	gen := time.Date(2026, 8, 18, 9, 0, 0, 0, time.UTC)
+	rows := [][]string{
+		{"1", "174430", "12", "https://boardgamegeek.com/boardgame/174430/", "Gloomhaven"},
+		{"5", "174430", "3", "https://boardgamegeek.com/boardgame/174430/", "Gloomhaven"}, // same id, later in the run
+	}
+	if err := updateFeedPerGame(path, gen, rows); err != nil {
+		t.Fatalf("updateFeedPerGame: %v", err)
+	}
+	feed := parseFeed(t, path)
+	if len(feed.Entry) != 1 {
+		t.Fatalf("a duplicate id in one run must not append a second entry: got %d (%v)", len(feed.Entry), entryIDs(feed))
+	}
+	if !strings.Contains(feed.Entry[0].Content.Text, "3 wins") {
+		t.Errorf("the later row should have updated the entry in place: got %q", feed.Entry[0].Content.Text)
+	}
+}
+
 // --- Ordering (finalizeFeed) --------------------------------------------------------
 
 // The comparator: newest-first by updated, ties broken by current-run rank, with a
