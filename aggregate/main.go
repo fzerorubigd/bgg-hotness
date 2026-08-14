@@ -159,6 +159,7 @@ func main() {
 		year       int
 		month      int
 		count      int
+		perGame    bool
 	)
 	flag.StringVar(&documentID, "document-id", os.Getenv("DOCUMENT_ID"), "The document id to get the data from")
 	flag.IntVar(&pageID, "page-id", 0, "The page id in document")
@@ -166,6 +167,7 @@ func main() {
 	flag.IntVar(&year, "year", 0, "Year to get the report, if set, the days will be ignored")
 	flag.IntVar(&month, "month", 0, "Month to get the report, if set, year should be sert too")
 	flag.IntVar(&count, "count", 50, "Number of items to get the report")
+	flag.BoolVar(&perGame, "per-game", false, "Emit one feed entry per game (updated in place, each linking its BGG page) instead of a single digest entry for the run")
 	flag.Parse()
 
 	if year != 0 {
@@ -296,8 +298,22 @@ func main() {
 	// failure logs to stderr and returns rather than aborting, for the same reason.
 	// data[1:] is the ranked rows; data[0] is the header prepended above.
 	if feedFile := os.Getenv("FEED_FILE"); feedFile != "" {
-		if err := updateFeed(feedFile, today, dayOut, time.Now(), data[1:]); err != nil {
-			fmt.Fprintf(os.Stderr, "feed: %v (sheet output unaffected)\n", err)
+		// Which shape a run emits is POLICY and is not derivable from any existing
+		// state: the monthly job is `-days=30` with no -year, so it is the same code
+		// path as the weekly job end to end, differing only in the window number, and
+		// the "Monthly - " title is unreachable from any workflow. So the per-game
+		// shape is opt-in via an explicit flag, set only in aggregate.yaml (the weekly
+		// job). Absence means the digest shape, so a future workflow that forgets the
+		// flag produces a harmless digest entry rather than per-game entries that would
+		// overwrite the weekly entries for those games in place.
+		var ferr error
+		if perGame {
+			ferr = updateFeedPerGame(feedFile, time.Now(), data[1:])
+		} else {
+			ferr = updateFeedDigest(feedFile, today, dayOut, time.Now(), data[1:])
+		}
+		if ferr != nil {
+			fmt.Fprintf(os.Stderr, "feed: %v (sheet output unaffected)\n", ferr)
 		}
 	}
 }
