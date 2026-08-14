@@ -35,15 +35,20 @@ jobs:
       - id: bgghotness
         # -per-game: this weekly job emits one feed entry per game (updated in place,
         # each linking its BGG page). It is the ONLY workflow that sets this flag; the
-        # monthly and yearly jobs omit it and keep the single-digest-entry shape, which
-        # is what stops their runs overwriting these per-game entries in the shared
-        # feed.xml. The cadence here is weekly (cron above); the window is 14 days.
+        # monthly and yearly jobs omit it and keep the single-digest-entry shape. Each of
+        # the three jobs writes its OWN feed file (this one feed.xml, monthly/yearly their
+        # own), so a run of one cannot touch another's entries. The cadence here is weekly
+        # (cron above); the window is 14 days.
         run: |
           go run ./aggregate -per-game >> ${GITHUB_OUTPUT}
         env:
           DOCUMENT_ID: ${{ secrets.DOCUMENT_ID }}
           BGG_TOKEN: ${{ secrets.BGG_TOKEN }}
           FEED_FILE: ${{ github.workspace }}/feed-branch/feed.xml
+          # The weekly feed keeps its original id (derived from feed.xml) and title, so the
+          # live subscription is untouched. Set explicitly so all three feeds declare their
+          # identity in one place rather than one relying on the code default.
+          FEED_TITLE: "BGG Hotness Aggregates"
       - id: 'update_worksheet'
         uses: jroehl/gsheet.action@v2.0.0 # you can specify '@release' to always have the latest changes
         with:

@@ -41,7 +41,12 @@ jobs:
         env:
           DOCUMENT_ID: ${{ secrets.DOCUMENT_ID }}
           BGG_TOKEN: ${{ secrets.BGG_TOKEN }}
-          FEED_FILE: ${{ github.workspace }}/feed-branch/feed.xml
+          # Monthly writes its OWN feed file (feed.go renders three separate feeds). The
+          # feed id derives from this basename (feed-monthly.xml -> ...:feed-monthly); do
+          # NOT point this at feed.xml — that is the live weekly feed and this run would
+          # re-identify and overwrite it.
+          FEED_FILE: ${{ github.workspace }}/feed-branch/feed-monthly.xml
+          FEED_TITLE: "BGG Hotness Aggregates (Monthly)"
       - id: 'update_worksheet'
         uses: jroehl/gsheet.action@v2.0.0 # you can specify '@release' to always have the latest changes
         with:
@@ -60,8 +65,8 @@ jobs:
         working-directory: feed-branch
         run: |
           set -euo pipefail
-          [ -f feed.xml ] || { echo "no feed produced; skipping"; exit 0; }
-          git add feed.xml
+          [ -f feed-monthly.xml ] || { echo "no feed produced; skipping"; exit 0; }
+          git add feed-monthly.xml
           if git diff --cached --quiet; then
             echo "feed unchanged; nothing to commit"
           else

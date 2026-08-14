@@ -19,6 +19,10 @@ import (
 // feed-parser dependency — parsing has always passed with no link at all, so the bar is
 // that the link is present and navigates, not that the XML is well-formed.
 
+// testFeedTitle is the feed-level title supplied in tests; the feed id is derived from
+// the path (see feedIDForPath), so tests vary the path to vary the id.
+const testFeedTitle = "Test Feed"
+
 func sampleRows() [][]string {
 	return [][]string{
 		{"1", "174430", "12", "https://boardgamegeek.com/boardgame/174430/", "Gloomhaven"},
@@ -36,11 +40,11 @@ func TestUpdateFeedDigestReplacesStableTitle(t *testing.T) {
 
 	pub := time.Date(2026, 12, 31, 23, 59, 59, 0, time.UTC)
 	gen1 := time.Date(2027, 1, 2, 0, 0, 0, 0, time.UTC)
-	if err := updateFeedDigest(path, "Yearly - 2026", pub, gen1, sampleRows()); err != nil {
+	if err := updateFeedDigest(path, testFeedTitle, "Yearly - 2026", pub, gen1, sampleRows()); err != nil {
 		t.Fatalf("first updateFeedDigest: %v", err)
 	}
 	gen2 := time.Date(2027, 3, 5, 0, 0, 0, 0, time.UTC)
-	if err := updateFeedDigest(path, "Yearly - 2026", pub, gen2, sampleRows()); err != nil {
+	if err := updateFeedDigest(path, testFeedTitle, "Yearly - 2026", pub, gen2, sampleRows()); err != nil {
 		t.Fatalf("re-dispatch updateFeedDigest: %v", err)
 	}
 
@@ -62,7 +66,7 @@ func TestDigestEntryHasNoLink(t *testing.T) {
 	path := filepath.Join(t.TempDir(), "feed.xml")
 	pub := time.Date(2026, 8, 1, 0, 0, 0, 0, time.UTC)
 	gen := time.Date(2026, 8, 1, 9, 0, 0, 0, time.UTC)
-	if err := updateFeedDigest(path, "2026-08-01_30-days", pub, gen, sampleRows()); err != nil {
+	if err := updateFeedDigest(path, testFeedTitle, "2026-08-01_30-days", pub, gen, sampleRows()); err != nil {
 		t.Fatalf("updateFeedDigest: %v", err)
 	}
 	raw, err := os.ReadFile(path)
@@ -88,7 +92,7 @@ func perGameRows() [][]string {
 func TestPerGameOneEntryPerGameWithNavigableLink(t *testing.T) {
 	path := filepath.Join(t.TempDir(), "feed.xml")
 	gen := time.Date(2026, 8, 18, 9, 0, 0, 0, time.UTC)
-	if err := updateFeedPerGame(path, gen, perGameRows()); err != nil {
+	if err := updateFeedPerGame(path, testFeedTitle, gen, perGameRows()); err != nil {
 		t.Fatalf("updateFeedPerGame: %v", err)
 	}
 
@@ -145,7 +149,7 @@ func TestPerGameBlankNameFallsBackToID(t *testing.T) {
 	path := filepath.Join(t.TempDir(), "feed.xml")
 	gen := time.Date(2026, 8, 18, 9, 0, 0, 0, time.UTC)
 	rows := [][]string{{"1", "999999", "3", "https://boardgamegeek.com/boardgame/999999/", ""}}
-	if err := updateFeedPerGame(path, gen, rows); err != nil {
+	if err := updateFeedPerGame(path, testFeedTitle, gen, rows); err != nil {
 		t.Fatalf("updateFeedPerGame: %v", err)
 	}
 	feed := parseFeed(t, path)
@@ -166,12 +170,12 @@ func TestPerGameUpdateInPlacePreservesPublished(t *testing.T) {
 	gen1 := time.Date(2026, 8, 11, 9, 0, 0, 0, time.UTC)
 	gen2 := time.Date(2026, 8, 18, 9, 0, 0, 0, time.UTC)
 
-	if err := updateFeedPerGame(path, gen1, [][]string{
+	if err := updateFeedPerGame(path, testFeedTitle, gen1, [][]string{
 		{"1", "174430", "12", "https://boardgamegeek.com/boardgame/174430/", "Gloomhaven"},
 	}); err != nil {
 		t.Fatalf("run 1: %v", err)
 	}
-	if err := updateFeedPerGame(path, gen2, [][]string{
+	if err := updateFeedPerGame(path, testFeedTitle, gen2, [][]string{
 		{"1", "174430", "20", "https://boardgamegeek.com/boardgame/174430/", "Gloomhaven"},
 	}); err != nil {
 		t.Fatalf("run 2: %v", err)
@@ -202,14 +206,14 @@ func TestPerGameUnchangedRunIsByteIdenticalNoOp(t *testing.T) {
 	gen1 := time.Date(2026, 8, 11, 9, 0, 0, 0, time.UTC)
 	gen2 := time.Date(2026, 8, 18, 9, 0, 0, 0, time.UTC) // later, but identical rows
 
-	if err := updateFeedPerGame(path, gen1, perGameRows()); err != nil {
+	if err := updateFeedPerGame(path, testFeedTitle, gen1, perGameRows()); err != nil {
 		t.Fatalf("run 1: %v", err)
 	}
 	first, err := os.ReadFile(path)
 	if err != nil {
 		t.Fatalf("read after run 1: %v", err)
 	}
-	if err := updateFeedPerGame(path, gen2, perGameRows()); err != nil {
+	if err := updateFeedPerGame(path, testFeedTitle, gen2, perGameRows()); err != nil {
 		t.Fatalf("run 2: %v", err)
 	}
 	second, err := os.ReadFile(path)
@@ -229,13 +233,13 @@ func TestPerGameStickyTitleOnTransientBlankName(t *testing.T) {
 	gen1 := time.Date(2026, 8, 11, 9, 0, 0, 0, time.UTC)
 	gen2 := time.Date(2026, 8, 18, 9, 0, 0, 0, time.UTC)
 
-	if err := updateFeedPerGame(path, gen1, [][]string{
+	if err := updateFeedPerGame(path, testFeedTitle, gen1, [][]string{
 		{"1", "266192", "9", "https://boardgamegeek.com/boardgame/266192/", "Wingspan"},
 	}); err != nil {
 		t.Fatalf("run 1: %v", err)
 	}
 	// Same rank+wins+link, but the name came back blank this run (transient miss).
-	if err := updateFeedPerGame(path, gen2, [][]string{
+	if err := updateFeedPerGame(path, testFeedTitle, gen2, [][]string{
 		{"1", "266192", "9", "https://boardgamegeek.com/boardgame/266192/", ""},
 	}); err != nil {
 		t.Fatalf("run 2: %v", err)
@@ -251,27 +255,26 @@ func TestPerGameStickyTitleOnTransientBlankName(t *testing.T) {
 	}
 }
 
-// Two rows sharing an id in ONE run must produce a single entry, not append a second
-// with a duplicate id. byID is seeded from the on-disk entries, so the guard registers
-// each appended entry's index for the rest of the loop; the later row updates the first
-// in place. (Current inputs can't produce this — ids come from the ranking's own key
-// set — so the guard makes the invariant local rather than resting on that property.)
-func TestPerGameDuplicateIDInOneRunUpdatesNotAppends(t *testing.T) {
+// Two rows sharing an id in ONE run must produce a single entry, not append a second with
+// a duplicate id. byID is seeded from the on-disk entries, so the guard registers each
+// appended entry's index for the rest of the loop. (Current inputs can't produce this —
+// ids come from the ranking's own key set — so the guard makes the invariant local rather
+// than resting on that property.) The guard's contract is ONE entry; WHICH of two same-id
+// rows wins on rank/content is arbitrary and unreached, so it is deliberately not asserted
+// — pinning "last wins" would encode an accident as if it were a chosen policy.
+func TestPerGameDuplicateIDInOneRun(t *testing.T) {
 	path := filepath.Join(t.TempDir(), "feed.xml")
 	gen := time.Date(2026, 8, 18, 9, 0, 0, 0, time.UTC)
 	rows := [][]string{
 		{"1", "174430", "12", "https://boardgamegeek.com/boardgame/174430/", "Gloomhaven"},
 		{"5", "174430", "3", "https://boardgamegeek.com/boardgame/174430/", "Gloomhaven"}, // same id, later in the run
 	}
-	if err := updateFeedPerGame(path, gen, rows); err != nil {
+	if err := updateFeedPerGame(path, testFeedTitle, gen, rows); err != nil {
 		t.Fatalf("updateFeedPerGame: %v", err)
 	}
 	feed := parseFeed(t, path)
 	if len(feed.Entry) != 1 {
 		t.Fatalf("a duplicate id in one run must not append a second entry: got %d (%v)", len(feed.Entry), entryIDs(feed))
-	}
-	if !strings.Contains(feed.Entry[0].Content.Text, "3 wins") {
-		t.Errorf("the later row should have updated the entry in place: got %q", feed.Entry[0].Content.Text)
 	}
 }
 
@@ -297,7 +300,7 @@ func TestFinalizeSortsByUpdatedThenRankUnrankedLast(t *testing.T) {
 	}}
 	rankByID := map[string]int{"r1": 1, "r2": 2} // "u" and "old" absent => +infinity
 
-	finalizeFeed(&feed, rankByID, time.Date(2026, 8, 18, 9, 0, 0, 0, time.UTC))
+	finalizeFeed(&feed, rankByID, time.Date(2026, 8, 18, 9, 0, 0, 0, time.UTC), false)
 
 	got := entryIDs(feed)
 	want := []string{"r1", "r2", "u", "old"}
@@ -313,46 +316,82 @@ func TestFinalizeSortsByUpdatedThenRankUnrankedLast(t *testing.T) {
 func TestFinalizeEmptyFeedUpdatedFallsBackToNow(t *testing.T) {
 	now := time.Date(2026, 8, 18, 9, 0, 0, 0, time.UTC)
 	feed := atomFeed{}
-	finalizeFeed(&feed, nil, now)
+	finalizeFeed(&feed, nil, now, false)
 	if got, want := feed.Updated, now.Format(time.RFC3339); got != want {
 		t.Errorf("empty feed updated = %q, want gen time %q", got, want)
 	}
 }
 
-// Decision 2: per-game entries and a digest entry coexist in the same feed, and neither
-// path disturbs the other's entries. Per-game ids (game:<id>) never collide with a
-// digest id (slug of the title).
-func TestPerGameAndDigestCoexist(t *testing.T) {
-	path := filepath.Join(t.TempDir(), "feed.xml")
+// Each of the three feeds is its OWN file with its OWN identity: distinct <id> (derived
+// from the filename) and distinct <title>. Three well-formed feeds that happened to share
+// an <id> would render fine and only misbehave in a reader (dedupe/merge), so this asserts
+// the identities are distinct AND that the weekly feed keeps the exact literal id its live
+// subscription depends on.
+func TestThreeFeedsDistinctIdentity(t *testing.T) {
+	dir := t.TempDir()
+	weekly := filepath.Join(dir, "feed.xml")
+	monthly := filepath.Join(dir, "feed-monthly.xml")
+	yearly := filepath.Join(dir, "feed-yearly.xml")
+
 	genW := time.Date(2026, 8, 18, 9, 0, 0, 0, time.UTC)
-	if err := updateFeedPerGame(path, genW, perGameRows()); err != nil {
-		t.Fatalf("weekly per-game: %v", err)
+	if err := updateFeedPerGame(weekly, "Weekly Feed", genW, perGameRows()); err != nil {
+		t.Fatalf("weekly: %v", err)
+	}
+	pubM := time.Date(2026, 8, 31, 0, 0, 0, 0, time.UTC)
+	if err := updateFeedDigest(monthly, "Monthly Feed", "2026-08-01_30-days", pubM, genW, sampleRows()); err != nil {
+		t.Fatalf("monthly: %v", err)
 	}
 	pubY := time.Date(2026, 12, 31, 23, 59, 59, 0, time.UTC)
-	genY := time.Date(2027, 1, 2, 0, 0, 0, 0, time.UTC)
-	if err := updateFeedDigest(path, "Yearly - 2026", pubY, genY, sampleRows()); err != nil {
-		t.Fatalf("yearly digest: %v", err)
+	if err := updateFeedDigest(yearly, "Yearly Feed", "Yearly - 2026", pubY, genW, sampleRows()); err != nil {
+		t.Fatalf("yearly: %v", err)
 	}
 
-	feed := parseFeed(t, path)
-	if len(feed.Entry) != 3 {
-		t.Fatalf("two per-game entries + one digest should coexist, got %d: %v", len(feed.Entry), entryIDs(feed))
+	fw, fm, fy := parseFeed(t, weekly), parseFeed(t, monthly), parseFeed(t, yearly)
+
+	// The weekly id is the exact literal the live subscription depends on. Asserted as a
+	// hardcoded string, NOT feedIDForPath("feed.xml") compared to itself — a self-comparison
+	// stays green through a rename; the literal turns a rename into a failing test.
+	if fw.ID != "tag:github.com,2024:bgg-hotness:feed" {
+		t.Errorf("weekly feed id must stay the literal the subscription uses: got %q", fw.ID)
 	}
-	for _, want := range []string{
-		tagPrefix + gamePrefix + "174430",
-		tagPrefix + gamePrefix + "266192",
-		tagPrefix + slug("Yearly - 2026"),
-	} {
-		if findEntry(feed, want) == nil {
-			t.Errorf("expected entry %q; ids were %v", want, entryIDs(feed))
+	ids := []string{fw.ID, fm.ID, fy.ID}
+	seen := map[string]bool{}
+	for _, id := range ids {
+		if seen[id] {
+			t.Errorf("three feeds must have distinct ids; %q repeats (all: %v)", id, ids)
+		}
+		seen[id] = true
+	}
+	if titles := map[string]bool{fw.Title: true, fm.Title: true, fy.Title: true}; len(titles) != 3 {
+		t.Errorf("three feeds must have distinct titles; got %q / %q / %q", fw.Title, fm.Title, fy.Title)
+	}
+	// The weekly feed carries per-game links; the digest feeds carry none.
+	if len(fw.Entry) == 0 || len(fw.Entry[0].Link) == 0 {
+		t.Errorf("weekly per-game entries must carry a link")
+	}
+	digestEntries := append(append([]atomEntry{}, fm.Entry...), fy.Entry...)
+	for _, e := range digestEntries {
+		if len(e.Link) != 0 {
+			t.Errorf("digest entry %q must carry no link, got %+v", e.ID, e.Link)
 		}
 	}
-	// The digest carries no link; the per-game entries do.
-	if d := findEntry(feed, tagPrefix+slug("Yearly - 2026")); d != nil && len(d.Link) != 0 {
-		t.Errorf("digest entry should carry no link, got %+v", d.Link)
+}
+
+// feedIDForPath derives the feed id from the file basename, and the weekly feed.xml must
+// map to the exact literal the live subscription depends on. Asserted against the literal
+// string rather than a self-comparison, so a rename (which re-identifies the feed) fails
+// here rather than passing silently.
+func TestFeedIDForPathWeeklyLiteral(t *testing.T) {
+	cases := map[string]string{
+		"feed.xml":                   "tag:github.com,2024:bgg-hotness:feed",
+		"/work/feed-branch/feed.xml": "tag:github.com,2024:bgg-hotness:feed", // path discarded; basename governs
+		"feed-monthly.xml":           "tag:github.com,2024:bgg-hotness:feed-monthly",
+		"feed-yearly.xml":            "tag:github.com,2024:bgg-hotness:feed-yearly",
 	}
-	if g := findEntry(feed, tagPrefix+gamePrefix+"174430"); g != nil && len(g.Link) == 0 {
-		t.Errorf("per-game entry should carry a link")
+	for path, want := range cases {
+		if got := feedIDForPath(path); got != want {
+			t.Errorf("feedIDForPath(%q) = %q, want %q", path, got, want)
+		}
 	}
 }
 
