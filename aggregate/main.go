@@ -306,11 +306,20 @@ func main() {
 		// job). Absence means the digest shape, so a future workflow that forgets the
 		// flag produces a harmless digest entry rather than per-game entries that would
 		// overwrite the weekly entries for those games in place.
+		//
+		// The three jobs write three SEPARATE feed files (each sets its own FEED_FILE);
+		// the feed-level id is derived from that filename and the feed-level title comes
+		// from FEED_TITLE, defaulting to the weekly feed's title when unset. A wrong
+		// title is cosmetic; a wrong id is not, which is why only the title is env-driven.
+		feedTitle := os.Getenv("FEED_TITLE")
+		if feedTitle == "" {
+			feedTitle = defaultFeedTitle
+		}
 		var ferr error
 		if perGame {
-			ferr = updateFeedPerGame(feedFile, time.Now(), data[1:])
+			ferr = updateFeedPerGame(feedFile, feedTitle, time.Now(), data[1:])
 		} else {
-			ferr = updateFeedDigest(feedFile, today, dayOut, time.Now(), data[1:])
+			ferr = updateFeedDigest(feedFile, feedTitle, today, dayOut, time.Now(), data[1:])
 		}
 		if ferr != nil {
 			fmt.Fprintf(os.Stderr, "feed: %v (sheet output unaffected)\n", ferr)
