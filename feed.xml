@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>BGG Hotness Aggregates</title>
   <id>tag:github.com,2024:bgg-hotness:feed</id>
-  <updated>2026-08-14T06:42:05Z</updated>
+  <updated>2026-08-17T13:30:27Z</updated>
   <author>
     <name>bgg-hotness</name>
   </author>
@@ -10,49 +10,393 @@
     <title>Dominant Species</title>
     <id>tag:github.com,2024:bgg-hotness:game:62219</id>
     <published>2026-08-14T06:42:05Z</published>
-    <updated>2026-08-14T06:42:05Z</updated>
+    <updated>2026-08-17T13:30:27Z</updated>
     <link rel="alternate" href="https://boardgamegeek.com/boardgame/62219/"></link>
-    <content type="html">&lt;p&gt;Rank 1 in the latest BGG Hotness aggregate (75 wins).&lt;/p&gt;</content>
+    <content type="html">&lt;p&gt;Rank 1 in the latest BGG Hotness aggregate (76 wins).&lt;/p&gt;</content>
   </entry>
   <entry>
     <title>Hell of a Deal</title>
     <id>tag:github.com,2024:bgg-hotness:game:463605</id>
     <published>2026-08-14T06:42:05Z</published>
-    <updated>2026-08-14T06:42:05Z</updated>
+    <updated>2026-08-17T13:30:27Z</updated>
     <link rel="alternate" href="https://boardgamegeek.com/boardgame/463605/"></link>
-    <content type="html">&lt;p&gt;Rank 2 in the latest BGG Hotness aggregate (74 wins).&lt;/p&gt;</content>
+    <content type="html">&lt;p&gt;Rank 2 in the latest BGG Hotness aggregate (75 wins).&lt;/p&gt;</content>
   </entry>
   <entry>
     <title>Drillers</title>
     <id>tag:github.com,2024:bgg-hotness:game:465669</id>
     <published>2026-08-14T06:42:05Z</published>
-    <updated>2026-08-14T06:42:05Z</updated>
+    <updated>2026-08-17T13:30:27Z</updated>
     <link rel="alternate" href="https://boardgamegeek.com/boardgame/465669/"></link>
-    <content type="html">&lt;p&gt;Rank 3 in the latest BGG Hotness aggregate (73 wins).&lt;/p&gt;</content>
-  </entry>
-  <entry>
-    <title>Dune: Imperium – Conspiracy</title>
-    <id>tag:github.com,2024:bgg-hotness:game:472822</id>
-    <published>2026-08-14T06:42:05Z</published>
-    <updated>2026-08-14T06:42:05Z</updated>
-    <link rel="alternate" href="https://boardgamegeek.com/boardgame/472822/"></link>
-    <content type="html">&lt;p&gt;Rank 4 in the latest BGG Hotness aggregate (72 wins).&lt;/p&gt;</content>
-  </entry>
-  <entry>
-    <title>The Lord of the Rings: The King&#39;s Gambit</title>
-    <id>tag:github.com,2024:bgg-hotness:game:467694</id>
-    <published>2026-08-14T06:42:05Z</published>
-    <updated>2026-08-14T06:42:05Z</updated>
-    <link rel="alternate" href="https://boardgamegeek.com/boardgame/467694/"></link>
-    <content type="html">&lt;p&gt;Rank 5 in the latest BGG Hotness aggregate (71 wins).&lt;/p&gt;</content>
+    <content type="html">&lt;p&gt;Rank 3 in the latest BGG Hotness aggregate (74 wins).&lt;/p&gt;</content>
   </entry>
   <entry>
     <title>Avalon: The Riven Veil</title>
     <id>tag:github.com,2024:bgg-hotness:game:402276</id>
     <published>2026-08-14T06:42:05Z</published>
-    <updated>2026-08-14T06:42:05Z</updated>
+    <updated>2026-08-17T13:30:27Z</updated>
     <link rel="alternate" href="https://boardgamegeek.com/boardgame/402276/"></link>
+    <content type="html">&lt;p&gt;Rank 4 in the latest BGG Hotness aggregate (73 wins).&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <title>Dune: Imperium – Conspiracy</title>
+    <id>tag:github.com,2024:bgg-hotness:game:472822</id>
+    <published>2026-08-14T06:42:05Z</published>
+    <updated>2026-08-17T13:30:27Z</updated>
+    <link rel="alternate" href="https://boardgamegeek.com/boardgame/472822/"></link>
+    <content type="html">&lt;p&gt;Rank 5 in the latest BGG Hotness aggregate (72 wins).&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <title>The Lord of the Rings: The King&#39;s Gambit</title>
+    <id>tag:github.com,2024:bgg-hotness:game:467694</id>
+    <published>2026-08-14T06:42:05Z</published>
+    <updated>2026-08-17T13:30:27Z</updated>
+    <link rel="alternate" href="https://boardgamegeek.com/boardgame/467694/"></link>
     <content type="html">&lt;p&gt;Rank 6 in the latest BGG Hotness aggregate (70 wins).&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <title>Magical Athlete</title>
+    <id>tag:github.com,2024:bgg-hotness:game:454103</id>
+    <published>2026-08-14T06:42:05Z</published>
+    <updated>2026-08-17T13:30:27Z</updated>
+    <link rel="alternate" href="https://boardgamegeek.com/boardgame/454103/"></link>
+    <content type="html">&lt;p&gt;Rank 8 in the latest BGG Hotness aggregate (69 wins).&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <title>SETI: Search for Extraterrestrial Intelligence</title>
+    <id>tag:github.com,2024:bgg-hotness:game:418059</id>
+    <published>2026-08-14T06:42:05Z</published>
+    <updated>2026-08-17T13:30:27Z</updated>
+    <link rel="alternate" href="https://boardgamegeek.com/boardgame/418059/"></link>
+    <content type="html">&lt;p&gt;Rank 9 in the latest BGG Hotness aggregate (68 wins).&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <title>Entropy</title>
+    <id>tag:github.com,2024:bgg-hotness:game:462941</id>
+    <published>2026-08-14T06:42:05Z</published>
+    <updated>2026-08-17T13:30:27Z</updated>
+    <link rel="alternate" href="https://boardgamegeek.com/boardgame/462941/"></link>
+    <content type="html">&lt;p&gt;Rank 10 in the latest BGG Hotness aggregate (67 wins).&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <title>The Lord of the Rings: Fate of the Fellowship</title>
+    <id>tag:github.com,2024:bgg-hotness:game:436217</id>
+    <published>2026-08-14T06:42:05Z</published>
+    <updated>2026-08-17T13:30:27Z</updated>
+    <link rel="alternate" href="https://boardgamegeek.com/boardgame/436217/"></link>
+    <content type="html">&lt;p&gt;Rank 11 in the latest BGG Hotness aggregate (66 wins).&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <title>Ark Nova</title>
+    <id>tag:github.com,2024:bgg-hotness:game:342942</id>
+    <published>2026-08-14T06:42:05Z</published>
+    <updated>2026-08-17T13:30:27Z</updated>
+    <link rel="alternate" href="https://boardgamegeek.com/boardgame/342942/"></link>
+    <content type="html">&lt;p&gt;Rank 12 in the latest BGG Hotness aggregate (64 wins).&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <title>Rebirth</title>
+    <id>tag:github.com,2024:bgg-hotness:game:417197</id>
+    <published>2026-08-14T06:42:05Z</published>
+    <updated>2026-08-17T13:30:27Z</updated>
+    <link rel="alternate" href="https://boardgamegeek.com/boardgame/417197/"></link>
+    <content type="html">&lt;p&gt;Rank 13 in the latest BGG Hotness aggregate (64 wins).&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <title>Harmonies</title>
+    <id>tag:github.com,2024:bgg-hotness:game:414317</id>
+    <published>2026-08-14T06:42:05Z</published>
+    <updated>2026-08-17T13:30:27Z</updated>
+    <link rel="alternate" href="https://boardgamegeek.com/boardgame/414317/"></link>
+    <content type="html">&lt;p&gt;Rank 14 in the latest BGG Hotness aggregate (63 wins).&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <title>Night at the Zoo</title>
+    <id>tag:github.com,2024:bgg-hotness:game:457412</id>
+    <published>2026-08-14T06:42:05Z</published>
+    <updated>2026-08-17T13:30:27Z</updated>
+    <link rel="alternate" href="https://boardgamegeek.com/boardgame/457412/"></link>
+    <content type="html">&lt;p&gt;Rank 15 in the latest BGG Hotness aggregate (62 wins).&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <title>The Old King&#39;s Crown</title>
+    <id>tag:github.com,2024:bgg-hotness:game:357873</id>
+    <published>2026-08-14T06:42:05Z</published>
+    <updated>2026-08-17T13:30:27Z</updated>
+    <link rel="alternate" href="https://boardgamegeek.com/boardgame/357873/"></link>
+    <content type="html">&lt;p&gt;Rank 16 in the latest BGG Hotness aggregate (60 wins).&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <title>Spirit Island</title>
+    <id>tag:github.com,2024:bgg-hotness:game:162886</id>
+    <published>2026-08-14T06:42:05Z</published>
+    <updated>2026-08-17T13:30:27Z</updated>
+    <link rel="alternate" href="https://boardgamegeek.com/boardgame/162886/"></link>
+    <content type="html">&lt;p&gt;Rank 17 in the latest BGG Hotness aggregate (59 wins).&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <title>Brass: Birmingham</title>
+    <id>tag:github.com,2024:bgg-hotness:game:224517</id>
+    <published>2026-08-14T06:42:05Z</published>
+    <updated>2026-08-17T13:30:27Z</updated>
+    <link rel="alternate" href="https://boardgamegeek.com/boardgame/224517/"></link>
+    <content type="html">&lt;p&gt;Rank 18 in the latest BGG Hotness aggregate (58 wins).&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <title>Container</title>
+    <id>tag:github.com,2024:bgg-hotness:game:453740</id>
+    <published>2026-08-14T06:42:05Z</published>
+    <updated>2026-08-17T13:30:27Z</updated>
+    <link rel="alternate" href="https://boardgamegeek.com/boardgame/453740/"></link>
+    <content type="html">&lt;p&gt;Rank 19 in the latest BGG Hotness aggregate (58 wins).&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <title>Lost Ruins of Arnak</title>
+    <id>tag:github.com,2024:bgg-hotness:game:312484</id>
+    <published>2026-08-14T06:42:05Z</published>
+    <updated>2026-08-17T13:30:27Z</updated>
+    <link rel="alternate" href="https://boardgamegeek.com/boardgame/312484/"></link>
+    <content type="html">&lt;p&gt;Rank 20 in the latest BGG Hotness aggregate (57 wins).&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <title>Dune: Imperium – Uprising</title>
+    <id>tag:github.com,2024:bgg-hotness:game:397598</id>
+    <published>2026-08-14T06:42:05Z</published>
+    <updated>2026-08-17T13:30:27Z</updated>
+    <link rel="alternate" href="https://boardgamegeek.com/boardgame/397598/"></link>
+    <content type="html">&lt;p&gt;Rank 21 in the latest BGG Hotness aggregate (56 wins).&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <title>Eternal Decks</title>
+    <id>tag:github.com,2024:bgg-hotness:game:424981</id>
+    <published>2026-08-14T06:42:05Z</published>
+    <updated>2026-08-17T13:30:27Z</updated>
+    <link rel="alternate" href="https://boardgamegeek.com/boardgame/424981/"></link>
+    <content type="html">&lt;p&gt;Rank 22 in the latest BGG Hotness aggregate (55 wins).&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <title>Star Trek: Captain&#39;s Chair</title>
+    <id>tag:github.com,2024:bgg-hotness:game:422541</id>
+    <published>2026-08-14T06:42:05Z</published>
+    <updated>2026-08-17T13:30:27Z</updated>
+    <link rel="alternate" href="https://boardgamegeek.com/boardgame/422541/"></link>
+    <content type="html">&lt;p&gt;Rank 23 in the latest BGG Hotness aggregate (54 wins).&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <title>Greylune</title>
+    <id>tag:github.com,2024:bgg-hotness:game:459401</id>
+    <published>2026-08-14T06:42:05Z</published>
+    <updated>2026-08-17T13:30:27Z</updated>
+    <link rel="alternate" href="https://boardgamegeek.com/boardgame/459401/"></link>
+    <content type="html">&lt;p&gt;Rank 24 in the latest BGG Hotness aggregate (50 wins).&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <title>Revenant</title>
+    <id>tag:github.com,2024:bgg-hotness:game:428099</id>
+    <published>2026-08-14T06:42:05Z</published>
+    <updated>2026-08-17T13:30:27Z</updated>
+    <link rel="alternate" href="https://boardgamegeek.com/boardgame/428099/"></link>
+    <content type="html">&lt;p&gt;Rank 25 in the latest BGG Hotness aggregate (49 wins).&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <title>Root</title>
+    <id>tag:github.com,2024:bgg-hotness:game:237182</id>
+    <published>2026-08-14T06:42:05Z</published>
+    <updated>2026-08-17T13:30:27Z</updated>
+    <link rel="alternate" href="https://boardgamegeek.com/boardgame/237182/"></link>
+    <content type="html">&lt;p&gt;Rank 26 in the latest BGG Hotness aggregate (47 wins).&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <title>Marvel Champions: The Card Game</title>
+    <id>tag:github.com,2024:bgg-hotness:game:285774</id>
+    <published>2026-08-14T06:42:05Z</published>
+    <updated>2026-08-17T13:30:27Z</updated>
+    <link rel="alternate" href="https://boardgamegeek.com/boardgame/285774/"></link>
+    <content type="html">&lt;p&gt;Rank 27 in the latest BGG Hotness aggregate (46 wins).&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <title>Heat: Pedal to the Metal</title>
+    <id>tag:github.com,2024:bgg-hotness:game:366013</id>
+    <published>2026-08-14T06:42:05Z</published>
+    <updated>2026-08-17T13:30:27Z</updated>
+    <link rel="alternate" href="https://boardgamegeek.com/boardgame/366013/"></link>
+    <content type="html">&lt;p&gt;Rank 28 in the latest BGG Hotness aggregate (45 wins).&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <title>Wingspan</title>
+    <id>tag:github.com,2024:bgg-hotness:game:266192</id>
+    <published>2026-08-14T06:42:05Z</published>
+    <updated>2026-08-17T13:30:27Z</updated>
+    <link rel="alternate" href="https://boardgamegeek.com/boardgame/266192/"></link>
+    <content type="html">&lt;p&gt;Rank 29 in the latest BGG Hotness aggregate (43 wins).&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <title>Arcs</title>
+    <id>tag:github.com,2024:bgg-hotness:game:359871</id>
+    <published>2026-08-14T06:42:05Z</published>
+    <updated>2026-08-17T13:30:27Z</updated>
+    <link rel="alternate" href="https://boardgamegeek.com/boardgame/359871/"></link>
+    <content type="html">&lt;p&gt;Rank 30 in the latest BGG Hotness aggregate (43 wins).&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <title>Moon Colony Bloodbath</title>
+    <id>tag:github.com,2024:bgg-hotness:game:425549</id>
+    <published>2026-08-14T06:42:05Z</published>
+    <updated>2026-08-17T13:30:27Z</updated>
+    <link rel="alternate" href="https://boardgamegeek.com/boardgame/425549/"></link>
+    <content type="html">&lt;p&gt;Rank 31 in the latest BGG Hotness aggregate (43 wins).&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <title>The Elder Scrolls: Betrayal of the Second Era</title>
+    <id>tag:github.com,2024:bgg-hotness:game:356080</id>
+    <published>2026-08-14T06:42:05Z</published>
+    <updated>2026-08-17T13:30:27Z</updated>
+    <link rel="alternate" href="https://boardgamegeek.com/boardgame/356080/"></link>
+    <content type="html">&lt;p&gt;Rank 32 in the latest BGG Hotness aggregate (41 wins).&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <title>Terraforming Mars</title>
+    <id>tag:github.com,2024:bgg-hotness:game:167791</id>
+    <published>2026-08-14T06:42:05Z</published>
+    <updated>2026-08-17T13:30:27Z</updated>
+    <link rel="alternate" href="https://boardgamegeek.com/boardgame/167791/"></link>
+    <content type="html">&lt;p&gt;Rank 33 in the latest BGG Hotness aggregate (40 wins).&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <title>World Order</title>
+    <id>tag:github.com,2024:bgg-hotness:game:403150</id>
+    <published>2026-08-14T06:42:05Z</published>
+    <updated>2026-08-17T13:30:27Z</updated>
+    <link rel="alternate" href="https://boardgamegeek.com/boardgame/403150/"></link>
+    <content type="html">&lt;p&gt;Rank 34 in the latest BGG Hotness aggregate (40 wins).&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <title>Kingdom Come: Deliverance – The Board Game</title>
+    <id>tag:github.com,2024:bgg-hotness:game:473897</id>
+    <published>2026-08-14T06:42:05Z</published>
+    <updated>2026-08-17T13:30:27Z</updated>
+    <link rel="alternate" href="https://boardgamegeek.com/boardgame/473897/"></link>
+    <content type="html">&lt;p&gt;Rank 35 in the latest BGG Hotness aggregate (37 wins).&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <title>Galactic Cruise</title>
+    <id>tag:github.com,2024:bgg-hotness:game:391137</id>
+    <published>2026-08-14T06:42:05Z</published>
+    <updated>2026-08-17T13:30:27Z</updated>
+    <link rel="alternate" href="https://boardgamegeek.com/boardgame/391137/"></link>
+    <content type="html">&lt;p&gt;Rank 36 in the latest BGG Hotness aggregate (36 wins).&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <title>Slay the Spire: The Board Game</title>
+    <id>tag:github.com,2024:bgg-hotness:game:338960</id>
+    <published>2026-08-14T06:42:05Z</published>
+    <updated>2026-08-17T13:30:27Z</updated>
+    <link rel="alternate" href="https://boardgamegeek.com/boardgame/338960/"></link>
+    <content type="html">&lt;p&gt;Rank 37 in the latest BGG Hotness aggregate (36 wins).&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <title>Flip 7</title>
+    <id>tag:github.com,2024:bgg-hotness:game:420087</id>
+    <published>2026-08-14T06:42:05Z</published>
+    <updated>2026-08-17T13:30:27Z</updated>
+    <link rel="alternate" href="https://boardgamegeek.com/boardgame/420087/"></link>
+    <content type="html">&lt;p&gt;Rank 38 in the latest BGG Hotness aggregate (35 wins).&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <title>Dune: Imperium</title>
+    <id>tag:github.com,2024:bgg-hotness:game:316554</id>
+    <published>2026-08-14T06:42:05Z</published>
+    <updated>2026-08-17T13:30:27Z</updated>
+    <link rel="alternate" href="https://boardgamegeek.com/boardgame/316554/"></link>
+    <content type="html">&lt;p&gt;Rank 39 in the latest BGG Hotness aggregate (35 wins).&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <title>Voidfall</title>
+    <id>tag:github.com,2024:bgg-hotness:game:337627</id>
+    <published>2026-08-17T13:30:27Z</published>
+    <updated>2026-08-17T13:30:27Z</updated>
+    <link rel="alternate" href="https://boardgamegeek.com/boardgame/337627/"></link>
+    <content type="html">&lt;p&gt;Rank 40 in the latest BGG Hotness aggregate (35 wins).&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <title>Duel of Meloch</title>
+    <id>tag:github.com,2024:bgg-hotness:game:473061</id>
+    <published>2026-08-14T06:42:05Z</published>
+    <updated>2026-08-17T13:30:27Z</updated>
+    <link rel="alternate" href="https://boardgamegeek.com/boardgame/473061/"></link>
+    <content type="html">&lt;p&gt;Rank 41 in the latest BGG Hotness aggregate (35 wins).&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <title>Clank!: Catacombs</title>
+    <id>tag:github.com,2024:bgg-hotness:game:365717</id>
+    <published>2026-08-17T13:30:27Z</published>
+    <updated>2026-08-17T13:30:27Z</updated>
+    <link rel="alternate" href="https://boardgamegeek.com/boardgame/365717/"></link>
+    <content type="html">&lt;p&gt;Rank 42 in the latest BGG Hotness aggregate (35 wins).&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <title>Nucleum</title>
+    <id>tag:github.com,2024:bgg-hotness:game:396790</id>
+    <published>2026-08-17T13:30:27Z</published>
+    <updated>2026-08-17T13:30:27Z</updated>
+    <link rel="alternate" href="https://boardgamegeek.com/boardgame/396790/"></link>
+    <content type="html">&lt;p&gt;Rank 43 in the latest BGG Hotness aggregate (34 wins).&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <title>Wondrous Creatures</title>
+    <id>tag:github.com,2024:bgg-hotness:game:400366</id>
+    <published>2026-08-14T06:42:05Z</published>
+    <updated>2026-08-17T13:30:27Z</updated>
+    <link rel="alternate" href="https://boardgamegeek.com/boardgame/400366/"></link>
+    <content type="html">&lt;p&gt;Rank 44 in the latest BGG Hotness aggregate (31 wins).&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <title>Scythe</title>
+    <id>tag:github.com,2024:bgg-hotness:game:169786</id>
+    <published>2026-08-17T13:30:27Z</published>
+    <updated>2026-08-17T13:30:27Z</updated>
+    <link rel="alternate" href="https://boardgamegeek.com/boardgame/169786/"></link>
+    <content type="html">&lt;p&gt;Rank 45 in the latest BGG Hotness aggregate (30 wins).&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <title>dnup</title>
+    <id>tag:github.com,2024:bgg-hotness:game:432456</id>
+    <published>2026-08-14T06:42:05Z</published>
+    <updated>2026-08-17T13:30:27Z</updated>
+    <link rel="alternate" href="https://boardgamegeek.com/boardgame/432456/"></link>
+    <content type="html">&lt;p&gt;Rank 46 in the latest BGG Hotness aggregate (29 wins).&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <title>Under the Leaves</title>
+    <id>tag:github.com,2024:bgg-hotness:game:436751</id>
+    <published>2026-08-14T06:42:05Z</published>
+    <updated>2026-08-17T13:30:27Z</updated>
+    <link rel="alternate" href="https://boardgamegeek.com/boardgame/436751/"></link>
+    <content type="html">&lt;p&gt;Rank 47 in the latest BGG Hotness aggregate (26 wins).&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <title>Wildscape</title>
+    <id>tag:github.com,2024:bgg-hotness:game:462932</id>
+    <published>2026-08-17T13:30:27Z</published>
+    <updated>2026-08-17T13:30:27Z</updated>
+    <link rel="alternate" href="https://boardgamegeek.com/boardgame/462932/"></link>
+    <content type="html">&lt;p&gt;Rank 48 in the latest BGG Hotness aggregate (26 wins).&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <title>Forest Shuffle: Smoky Mountains</title>
+    <id>tag:github.com,2024:bgg-hotness:game:463296</id>
+    <published>2026-08-17T13:30:27Z</published>
+    <updated>2026-08-17T13:30:27Z</updated>
+    <link rel="alternate" href="https://boardgamegeek.com/boardgame/463296/"></link>
+    <content type="html">&lt;p&gt;Rank 49 in the latest BGG Hotness aggregate (26 wins).&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <title>Parks Europe</title>
+    <id>tag:github.com,2024:bgg-hotness:game:458651</id>
+    <published>2026-08-14T06:42:05Z</published>
+    <updated>2026-08-17T13:30:27Z</updated>
+    <link rel="alternate" href="https://boardgamegeek.com/boardgame/458651/"></link>
+    <content type="html">&lt;p&gt;Rank 50 in the latest BGG Hotness aggregate (26 wins).&lt;/p&gt;</content>
   </entry>
   <entry>
     <title>Wingspan Pocket</title>
@@ -63,292 +407,12 @@
     <content type="html">&lt;p&gt;Rank 7 in the latest BGG Hotness aggregate (69 wins).&lt;/p&gt;</content>
   </entry>
   <entry>
-    <title>Magical Athlete</title>
-    <id>tag:github.com,2024:bgg-hotness:game:454103</id>
-    <published>2026-08-14T06:42:05Z</published>
-    <updated>2026-08-14T06:42:05Z</updated>
-    <link rel="alternate" href="https://boardgamegeek.com/boardgame/454103/"></link>
-    <content type="html">&lt;p&gt;Rank 8 in the latest BGG Hotness aggregate (68 wins).&lt;/p&gt;</content>
-  </entry>
-  <entry>
-    <title>Entropy</title>
-    <id>tag:github.com,2024:bgg-hotness:game:462941</id>
-    <published>2026-08-14T06:42:05Z</published>
-    <updated>2026-08-14T06:42:05Z</updated>
-    <link rel="alternate" href="https://boardgamegeek.com/boardgame/462941/"></link>
-    <content type="html">&lt;p&gt;Rank 9 in the latest BGG Hotness aggregate (67 wins).&lt;/p&gt;</content>
-  </entry>
-  <entry>
-    <title>SETI: Search for Extraterrestrial Intelligence</title>
-    <id>tag:github.com,2024:bgg-hotness:game:418059</id>
-    <published>2026-08-14T06:42:05Z</published>
-    <updated>2026-08-14T06:42:05Z</updated>
-    <link rel="alternate" href="https://boardgamegeek.com/boardgame/418059/"></link>
-    <content type="html">&lt;p&gt;Rank 10 in the latest BGG Hotness aggregate (66 wins).&lt;/p&gt;</content>
-  </entry>
-  <entry>
-    <title>The Lord of the Rings: Fate of the Fellowship</title>
-    <id>tag:github.com,2024:bgg-hotness:game:436217</id>
-    <published>2026-08-14T06:42:05Z</published>
-    <updated>2026-08-14T06:42:05Z</updated>
-    <link rel="alternate" href="https://boardgamegeek.com/boardgame/436217/"></link>
-    <content type="html">&lt;p&gt;Rank 11 in the latest BGG Hotness aggregate (65 wins).&lt;/p&gt;</content>
-  </entry>
-  <entry>
-    <title>Container</title>
-    <id>tag:github.com,2024:bgg-hotness:game:453740</id>
-    <published>2026-08-14T06:42:05Z</published>
-    <updated>2026-08-14T06:42:05Z</updated>
-    <link rel="alternate" href="https://boardgamegeek.com/boardgame/453740/"></link>
-    <content type="html">&lt;p&gt;Rank 12 in the latest BGG Hotness aggregate (64 wins).&lt;/p&gt;</content>
-  </entry>
-  <entry>
-    <title>Rebirth</title>
-    <id>tag:github.com,2024:bgg-hotness:game:417197</id>
-    <published>2026-08-14T06:42:05Z</published>
-    <updated>2026-08-14T06:42:05Z</updated>
-    <link rel="alternate" href="https://boardgamegeek.com/boardgame/417197/"></link>
-    <content type="html">&lt;p&gt;Rank 13 in the latest BGG Hotness aggregate (63 wins).&lt;/p&gt;</content>
-  </entry>
-  <entry>
-    <title>Ark Nova</title>
-    <id>tag:github.com,2024:bgg-hotness:game:342942</id>
-    <published>2026-08-14T06:42:05Z</published>
-    <updated>2026-08-14T06:42:05Z</updated>
-    <link rel="alternate" href="https://boardgamegeek.com/boardgame/342942/"></link>
-    <content type="html">&lt;p&gt;Rank 14 in the latest BGG Hotness aggregate (62 wins).&lt;/p&gt;</content>
-  </entry>
-  <entry>
-    <title>Harmonies</title>
-    <id>tag:github.com,2024:bgg-hotness:game:414317</id>
-    <published>2026-08-14T06:42:05Z</published>
-    <updated>2026-08-14T06:42:05Z</updated>
-    <link rel="alternate" href="https://boardgamegeek.com/boardgame/414317/"></link>
-    <content type="html">&lt;p&gt;Rank 15 in the latest BGG Hotness aggregate (61 wins).&lt;/p&gt;</content>
-  </entry>
-  <entry>
-    <title>The Old King&#39;s Crown</title>
-    <id>tag:github.com,2024:bgg-hotness:game:357873</id>
-    <published>2026-08-14T06:42:05Z</published>
-    <updated>2026-08-14T06:42:05Z</updated>
-    <link rel="alternate" href="https://boardgamegeek.com/boardgame/357873/"></link>
-    <content type="html">&lt;p&gt;Rank 16 in the latest BGG Hotness aggregate (58 wins).&lt;/p&gt;</content>
-  </entry>
-  <entry>
-    <title>Night at the Zoo</title>
-    <id>tag:github.com,2024:bgg-hotness:game:457412</id>
-    <published>2026-08-14T06:42:05Z</published>
-    <updated>2026-08-14T06:42:05Z</updated>
-    <link rel="alternate" href="https://boardgamegeek.com/boardgame/457412/"></link>
-    <content type="html">&lt;p&gt;Rank 17 in the latest BGG Hotness aggregate (57 wins).&lt;/p&gt;</content>
-  </entry>
-  <entry>
-    <title>Greylune</title>
-    <id>tag:github.com,2024:bgg-hotness:game:459401</id>
-    <published>2026-08-14T06:42:05Z</published>
-    <updated>2026-08-14T06:42:05Z</updated>
-    <link rel="alternate" href="https://boardgamegeek.com/boardgame/459401/"></link>
-    <content type="html">&lt;p&gt;Rank 18 in the latest BGG Hotness aggregate (57 wins).&lt;/p&gt;</content>
-  </entry>
-  <entry>
-    <title>Lost Ruins of Arnak</title>
-    <id>tag:github.com,2024:bgg-hotness:game:312484</id>
-    <published>2026-08-14T06:42:05Z</published>
-    <updated>2026-08-14T06:42:05Z</updated>
-    <link rel="alternate" href="https://boardgamegeek.com/boardgame/312484/"></link>
-    <content type="html">&lt;p&gt;Rank 19 in the latest BGG Hotness aggregate (55 wins).&lt;/p&gt;</content>
-  </entry>
-  <entry>
-    <title>Spirit Island</title>
-    <id>tag:github.com,2024:bgg-hotness:game:162886</id>
-    <published>2026-08-14T06:42:05Z</published>
-    <updated>2026-08-14T06:42:05Z</updated>
-    <link rel="alternate" href="https://boardgamegeek.com/boardgame/162886/"></link>
-    <content type="html">&lt;p&gt;Rank 20 in the latest BGG Hotness aggregate (54 wins).&lt;/p&gt;</content>
-  </entry>
-  <entry>
-    <title>Dune: Imperium – Uprising</title>
-    <id>tag:github.com,2024:bgg-hotness:game:397598</id>
-    <published>2026-08-14T06:42:05Z</published>
-    <updated>2026-08-14T06:42:05Z</updated>
-    <link rel="alternate" href="https://boardgamegeek.com/boardgame/397598/"></link>
-    <content type="html">&lt;p&gt;Rank 21 in the latest BGG Hotness aggregate (53 wins).&lt;/p&gt;</content>
-  </entry>
-  <entry>
-    <title>Brass: Birmingham</title>
-    <id>tag:github.com,2024:bgg-hotness:game:224517</id>
-    <published>2026-08-14T06:42:05Z</published>
-    <updated>2026-08-14T06:42:05Z</updated>
-    <link rel="alternate" href="https://boardgamegeek.com/boardgame/224517/"></link>
-    <content type="html">&lt;p&gt;Rank 22 in the latest BGG Hotness aggregate (52 wins).&lt;/p&gt;</content>
-  </entry>
-  <entry>
-    <title>Revenant</title>
-    <id>tag:github.com,2024:bgg-hotness:game:428099</id>
-    <published>2026-08-14T06:42:05Z</published>
-    <updated>2026-08-14T06:42:05Z</updated>
-    <link rel="alternate" href="https://boardgamegeek.com/boardgame/428099/"></link>
-    <content type="html">&lt;p&gt;Rank 23 in the latest BGG Hotness aggregate (51 wins).&lt;/p&gt;</content>
-  </entry>
-  <entry>
-    <title>Eternal Decks</title>
-    <id>tag:github.com,2024:bgg-hotness:game:424981</id>
-    <published>2026-08-14T06:42:05Z</published>
-    <updated>2026-08-14T06:42:05Z</updated>
-    <link rel="alternate" href="https://boardgamegeek.com/boardgame/424981/"></link>
-    <content type="html">&lt;p&gt;Rank 24 in the latest BGG Hotness aggregate (50 wins).&lt;/p&gt;</content>
-  </entry>
-  <entry>
-    <title>Moon Colony Bloodbath</title>
-    <id>tag:github.com,2024:bgg-hotness:game:425549</id>
-    <published>2026-08-14T06:42:05Z</published>
-    <updated>2026-08-14T06:42:05Z</updated>
-    <link rel="alternate" href="https://boardgamegeek.com/boardgame/425549/"></link>
-    <content type="html">&lt;p&gt;Rank 25 in the latest BGG Hotness aggregate (49 wins).&lt;/p&gt;</content>
-  </entry>
-  <entry>
-    <title>Root</title>
-    <id>tag:github.com,2024:bgg-hotness:game:237182</id>
-    <published>2026-08-14T06:42:05Z</published>
-    <updated>2026-08-14T06:42:05Z</updated>
-    <link rel="alternate" href="https://boardgamegeek.com/boardgame/237182/"></link>
-    <content type="html">&lt;p&gt;Rank 26 in the latest BGG Hotness aggregate (48 wins).&lt;/p&gt;</content>
-  </entry>
-  <entry>
-    <title>Star Trek: Captain&#39;s Chair</title>
-    <id>tag:github.com,2024:bgg-hotness:game:422541</id>
-    <published>2026-08-14T06:42:05Z</published>
-    <updated>2026-08-14T06:42:05Z</updated>
-    <link rel="alternate" href="https://boardgamegeek.com/boardgame/422541/"></link>
-    <content type="html">&lt;p&gt;Rank 27 in the latest BGG Hotness aggregate (47 wins).&lt;/p&gt;</content>
-  </entry>
-  <entry>
-    <title>Marvel Champions: The Card Game</title>
-    <id>tag:github.com,2024:bgg-hotness:game:285774</id>
-    <published>2026-08-14T06:42:05Z</published>
-    <updated>2026-08-14T06:42:05Z</updated>
-    <link rel="alternate" href="https://boardgamegeek.com/boardgame/285774/"></link>
-    <content type="html">&lt;p&gt;Rank 28 in the latest BGG Hotness aggregate (46 wins).&lt;/p&gt;</content>
-  </entry>
-  <entry>
-    <title>World Order</title>
-    <id>tag:github.com,2024:bgg-hotness:game:403150</id>
-    <published>2026-08-14T06:42:05Z</published>
-    <updated>2026-08-14T06:42:05Z</updated>
-    <link rel="alternate" href="https://boardgamegeek.com/boardgame/403150/"></link>
-    <content type="html">&lt;p&gt;Rank 29 in the latest BGG Hotness aggregate (45 wins).&lt;/p&gt;</content>
-  </entry>
-  <entry>
-    <title>Heat: Pedal to the Metal</title>
-    <id>tag:github.com,2024:bgg-hotness:game:366013</id>
-    <published>2026-08-14T06:42:05Z</published>
-    <updated>2026-08-14T06:42:05Z</updated>
-    <link rel="alternate" href="https://boardgamegeek.com/boardgame/366013/"></link>
-    <content type="html">&lt;p&gt;Rank 30 in the latest BGG Hotness aggregate (44 wins).&lt;/p&gt;</content>
-  </entry>
-  <entry>
-    <title>Wingspan</title>
-    <id>tag:github.com,2024:bgg-hotness:game:266192</id>
-    <published>2026-08-14T06:42:05Z</published>
-    <updated>2026-08-14T06:42:05Z</updated>
-    <link rel="alternate" href="https://boardgamegeek.com/boardgame/266192/"></link>
-    <content type="html">&lt;p&gt;Rank 31 in the latest BGG Hotness aggregate (44 wins).&lt;/p&gt;</content>
-  </entry>
-  <entry>
     <title>Mobius</title>
     <id>tag:github.com,2024:bgg-hotness:game:475881</id>
     <published>2026-08-14T06:42:05Z</published>
     <updated>2026-08-14T06:42:05Z</updated>
     <link rel="alternate" href="https://boardgamegeek.com/boardgame/475881/"></link>
     <content type="html">&lt;p&gt;Rank 32 in the latest BGG Hotness aggregate (44 wins).&lt;/p&gt;</content>
-  </entry>
-  <entry>
-    <title>Arcs</title>
-    <id>tag:github.com,2024:bgg-hotness:game:359871</id>
-    <published>2026-08-14T06:42:05Z</published>
-    <updated>2026-08-14T06:42:05Z</updated>
-    <link rel="alternate" href="https://boardgamegeek.com/boardgame/359871/"></link>
-    <content type="html">&lt;p&gt;Rank 33 in the latest BGG Hotness aggregate (43 wins).&lt;/p&gt;</content>
-  </entry>
-  <entry>
-    <title>Terraforming Mars</title>
-    <id>tag:github.com,2024:bgg-hotness:game:167791</id>
-    <published>2026-08-14T06:42:05Z</published>
-    <updated>2026-08-14T06:42:05Z</updated>
-    <link rel="alternate" href="https://boardgamegeek.com/boardgame/167791/"></link>
-    <content type="html">&lt;p&gt;Rank 34 in the latest BGG Hotness aggregate (41 wins).&lt;/p&gt;</content>
-  </entry>
-  <entry>
-    <title>The Elder Scrolls: Betrayal of the Second Era</title>
-    <id>tag:github.com,2024:bgg-hotness:game:356080</id>
-    <published>2026-08-14T06:42:05Z</published>
-    <updated>2026-08-14T06:42:05Z</updated>
-    <link rel="alternate" href="https://boardgamegeek.com/boardgame/356080/"></link>
-    <content type="html">&lt;p&gt;Rank 35 in the latest BGG Hotness aggregate (40 wins).&lt;/p&gt;</content>
-  </entry>
-  <entry>
-    <title>Duel of Meloch</title>
-    <id>tag:github.com,2024:bgg-hotness:game:473061</id>
-    <published>2026-08-14T06:42:05Z</published>
-    <updated>2026-08-14T06:42:05Z</updated>
-    <link rel="alternate" href="https://boardgamegeek.com/boardgame/473061/"></link>
-    <content type="html">&lt;p&gt;Rank 36 in the latest BGG Hotness aggregate (40 wins).&lt;/p&gt;</content>
-  </entry>
-  <entry>
-    <title>Slay the Spire: The Board Game</title>
-    <id>tag:github.com,2024:bgg-hotness:game:338960</id>
-    <published>2026-08-14T06:42:05Z</published>
-    <updated>2026-08-14T06:42:05Z</updated>
-    <link rel="alternate" href="https://boardgamegeek.com/boardgame/338960/"></link>
-    <content type="html">&lt;p&gt;Rank 37 in the latest BGG Hotness aggregate (37 wins).&lt;/p&gt;</content>
-  </entry>
-  <entry>
-    <title>Kingdom Come: Deliverance – The Board Game</title>
-    <id>tag:github.com,2024:bgg-hotness:game:473897</id>
-    <published>2026-08-14T06:42:05Z</published>
-    <updated>2026-08-14T06:42:05Z</updated>
-    <link rel="alternate" href="https://boardgamegeek.com/boardgame/473897/"></link>
-    <content type="html">&lt;p&gt;Rank 38 in the latest BGG Hotness aggregate (37 wins).&lt;/p&gt;</content>
-  </entry>
-  <entry>
-    <title>Dune: Imperium</title>
-    <id>tag:github.com,2024:bgg-hotness:game:316554</id>
-    <published>2026-08-14T06:42:05Z</published>
-    <updated>2026-08-14T06:42:05Z</updated>
-    <link rel="alternate" href="https://boardgamegeek.com/boardgame/316554/"></link>
-    <content type="html">&lt;p&gt;Rank 39 in the latest BGG Hotness aggregate (37 wins).&lt;/p&gt;</content>
-  </entry>
-  <entry>
-    <title>Flip 7</title>
-    <id>tag:github.com,2024:bgg-hotness:game:420087</id>
-    <published>2026-08-14T06:42:05Z</published>
-    <updated>2026-08-14T06:42:05Z</updated>
-    <link rel="alternate" href="https://boardgamegeek.com/boardgame/420087/"></link>
-    <content type="html">&lt;p&gt;Rank 40 in the latest BGG Hotness aggregate (35 wins).&lt;/p&gt;</content>
-  </entry>
-  <entry>
-    <title>Wondrous Creatures</title>
-    <id>tag:github.com,2024:bgg-hotness:game:400366</id>
-    <published>2026-08-14T06:42:05Z</published>
-    <updated>2026-08-14T06:42:05Z</updated>
-    <link rel="alternate" href="https://boardgamegeek.com/boardgame/400366/"></link>
-    <content type="html">&lt;p&gt;Rank 41 in the latest BGG Hotness aggregate (34 wins).&lt;/p&gt;</content>
-  </entry>
-  <entry>
-    <title>Galactic Cruise</title>
-    <id>tag:github.com,2024:bgg-hotness:game:391137</id>
-    <published>2026-08-14T06:42:05Z</published>
-    <updated>2026-08-14T06:42:05Z</updated>
-    <link rel="alternate" href="https://boardgamegeek.com/boardgame/391137/"></link>
-    <content type="html">&lt;p&gt;Rank 42 in the latest BGG Hotness aggregate (33 wins).&lt;/p&gt;</content>
-  </entry>
-  <entry>
-    <title>dnup</title>
-    <id>tag:github.com,2024:bgg-hotness:game:432456</id>
-    <published>2026-08-14T06:42:05Z</published>
-    <updated>2026-08-14T06:42:05Z</updated>
-    <link rel="alternate" href="https://boardgamegeek.com/boardgame/432456/"></link>
-    <content type="html">&lt;p&gt;Rank 43 in the latest BGG Hotness aggregate (33 wins).&lt;/p&gt;</content>
   </entry>
   <entry>
     <title>Nippon: Zaibatsu</title>
@@ -381,22 +445,6 @@
     <updated>2026-08-14T06:42:05Z</updated>
     <link rel="alternate" href="https://boardgamegeek.com/boardgame/91984/"></link>
     <content type="html">&lt;p&gt;Rank 47 in the latest BGG Hotness aggregate (26 wins).&lt;/p&gt;</content>
-  </entry>
-  <entry>
-    <title>Under the Leaves</title>
-    <id>tag:github.com,2024:bgg-hotness:game:436751</id>
-    <published>2026-08-14T06:42:05Z</published>
-    <updated>2026-08-14T06:42:05Z</updated>
-    <link rel="alternate" href="https://boardgamegeek.com/boardgame/436751/"></link>
-    <content type="html">&lt;p&gt;Rank 48 in the latest BGG Hotness aggregate (26 wins).&lt;/p&gt;</content>
-  </entry>
-  <entry>
-    <title>Parks Europe</title>
-    <id>tag:github.com,2024:bgg-hotness:game:458651</id>
-    <published>2026-08-14T06:42:05Z</published>
-    <updated>2026-08-14T06:42:05Z</updated>
-    <link rel="alternate" href="https://boardgamegeek.com/boardgame/458651/"></link>
-    <content type="html">&lt;p&gt;Rank 49 in the latest BGG Hotness aggregate (26 wins).&lt;/p&gt;</content>
   </entry>
   <entry>
     <title>Timespan</title>
