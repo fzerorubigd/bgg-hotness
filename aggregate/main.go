@@ -186,7 +186,7 @@ func main() {
 	}
 
 	choices := options(ballots)
-	preferences := schulze.NewPreferences(len(choices))
+	preferences := schulze.NewPreferences[int](len(choices))
 
 	for i := range ballots {
 		if _, err := schulze.Vote(preferences, choices, toMap(ballots[i])); err != nil {
