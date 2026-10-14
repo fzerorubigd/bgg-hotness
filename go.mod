@@ -3,7 +3,7 @@ module github.com/fzerorubigd/bgg-hotness
 go 1.27
 
 require (
-	github.com/fzerorubigd/bggo v0.2.1
+	github.com/fzerorubigd/bggo v0.2.2
 	go.uber.org/ratelimit v0.3.1
 	golang.org/x/oauth2 v0.37.0
 	google.golang.org/api v0.298.0
